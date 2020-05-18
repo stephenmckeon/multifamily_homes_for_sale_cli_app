@@ -4,22 +4,27 @@
 # This will invoke Scraper
 
 class Cli
-  # have a profile setup with password that knows your default seach area
-  # have guest profile with no password that makes you select an area to search
+  # --IDEAS--
+  ## have a profile setup with password that knows your default seach area
+  ## have guest profile with no password that makes you select an area to search
+  # use user input (address) to display more info  about the home
 
   def call
     Scraper.new.scrape_listings
     welcome_message
-    display_properties
+    start
   end
 
   def start
-    # call this method @ line 13
+    display_properties
+    prompt_user
+    @user_input = gets.strip
+    Scraper.scrape_property_details(@user_input)
   end
 
   def welcome_message
     puts "Hello, user! Welcome to the CLI property search."
-    puts "Here are today's properties in Vineland:"
+    puts "Here are today's properties in Vineland, NJ:"
     puts
   end
 
@@ -32,5 +37,9 @@ class Cli
       puts "➼ #{home.sqft}"
       puts
     end
+  end
+
+  def prompt_user
+    puts "To see more information on a property, type its address and press enter."
   end
 end

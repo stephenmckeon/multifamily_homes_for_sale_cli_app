@@ -11,7 +11,7 @@ class Property
   @@all = []
 
   def initialize(address:, price:, beds:, baths:, sqft:, link:)
-    @address = address
+    @address = address.split(", ")[0]
     @price = price
     @beds = beds
     @baths = baths
