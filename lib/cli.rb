@@ -4,4 +4,8 @@
 # This will invoke Scraper
 
 class Cli
+
+  def call
+    puts "Hello World!"
+  end
 end
