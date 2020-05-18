@@ -1,3 +1,3 @@
-# My Zillow scaper project
+# My Zillow Scraper Project
 
 Description and instructions on how to instal
