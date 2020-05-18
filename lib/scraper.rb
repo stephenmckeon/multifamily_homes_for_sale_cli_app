@@ -2,13 +2,28 @@
 # This file will use nokogiri, i.e. scrape
 # This file will never use 'puts'
 
+require "./config/environment"
+
 class Scraper
-  listing_url = "https://tinyurl.com/ybetkynu"
+  def self.scrape_listings_page(listings_url)
+    html = Nokogiri::HTML(HTTParty.get(listings_url))
+    homecards = html.css(".HomeCardContainer")
 
-  def self.scape_listings_page(listing_url)
-    # make an array of hashes of properties and their basic info
-    # scrape address, price, bds, bas, style, sqft, type of sale
-    # scrape link to properties listing
+    properties = []
 
+    homecards.each do |home|
+      properties << {
+        address: home.css(".addressDisplay").text,
+        price: home.css(".homecardV2Price").text,
+        beds: home.css(".stats")[0].text,
+        baths: home.css(".stats")[1].text,
+        sqft: home.css(".stats")[2].text,
+        link: "https://www.redfin.com" + home.css(".scrollable a").attribute("href").value,
+      }
+    end
+    properties
   end
 end
+
+listings_url = "https://www.redfin.com/city/19265/NJ/Vineland/filter/property-type=multifamily"
+puts Scraper.scrape_listings_page(listings_url)

@@ -17,6 +17,9 @@ AllCops:
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
 
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
@@ -73,6 +76,9 @@ Style/Lambda:
 
 Style/RescueStandardError:
   EnforcedStyle: implicit
+
+Style/SlicingWithRange:
+  Enabled: false
 
 # Single quotes being faster is hardly measurable and only affects parse time.
 # Enforcing double quotes reduces the times where you need to change them when introducing an interpolation.
