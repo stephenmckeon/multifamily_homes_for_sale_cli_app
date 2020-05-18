@@ -7,7 +7,18 @@ class Cli
   # have a profile setup with password that knows your default seach area
   # have guest profile with no password that makes you select an area to search
 
+
+
   def call
-    puts "Hello World!"
+    run_scraper
+    welcome_message
+  end
+
+  def run_scraper
+    Scraper.new
+  end
+
+  def welcome_message
+
   end
 end
