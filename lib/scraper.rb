@@ -5,8 +5,10 @@
 class Scraper
   attr_accessor :listings_url
 
-  BASE_URL = "https://www.redfin.com/city/19265/NJ/" \
-             "Vineland/filter/property-type=multifamily".freeze
+  # BASE_URL = "https://www.redfin.com/city/19265/NJ/" \
+  #            "Vineland/filter/property-type=multifamily".freeze
+
+  BASE_URL = "https://www.redfin.com/city/19265/NJ/Vineland"
 
   def scrape_listings
     homecards.each do |home|
