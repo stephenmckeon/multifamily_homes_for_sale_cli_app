@@ -5,7 +5,7 @@
 
 class Cli
   # --IDEAS--
-  # find_or_update_by
+  # select a market to search after welcome message
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
@@ -36,13 +36,14 @@ class Cli
       puts "  ➼ #{home.baths}"
       puts "  ➼ #{home.sqft}"
       puts
-      sleep 0.5
+      sleep 0.3
     end
   end
 
   def prompt_user
-    puts "To see more information on a property, type its address and press enter."
-    puts "To exit, type 'exit'."
+    puts "To see more " + "information ".blue + "on a property, type its " + \
+         "address ".yellow + "and press enter."
+    puts "To " + "exit".red + ", " + "type " + "'exit'".red + "."
     puts
   end
 
@@ -110,7 +111,8 @@ class Cli
   end
 
   def price_insights(address)
-    puts "Would you like to see " + "price insights".green + "?"
+    puts "Would you like to see " + "price insights ".green + \
+         "for " + @user_input.yellow + "?"
     puts "(type 'yes' or 'no')"
     puts
     input
