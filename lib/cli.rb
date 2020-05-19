@@ -5,6 +5,7 @@
 
 class Cli
   # --IDEAS--
+  # find_or_update_by
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
@@ -16,19 +17,14 @@ class Cli
 
   def welcome_message
     puts "Hello, user! Welcome to the CLI property search."
-    puts "Here are today's properties in Vineland, NJ:"
+    puts "Here are today's multifamily listings in Vineland, NJ:"
   end
 
-  def start
+  def start(to_exit = true)
     display_properties
     prompt_user
-    input
-    until user_input_exit?
-      invalid_address?
-      display_details
-      start if user_input_back?
-    end
-    exit
+    continue
+    exit if to_exit
   end
 
   def display_properties
@@ -49,8 +45,31 @@ class Cli
     puts
   end
 
+  def continue
+    input
+    unless user_input_exit?
+
+      return if invalid_address?
+
+      display_details
+    end
+    start(false) if user_input_back?
+  end
+
   def input
     @user_input = gets.strip
+  end
+
+  def invalid_address?
+    return unless Scraper.find_property(@user_input).nil?
+
+    puts
+    puts "Invalid input..."
+    puts "Please type the address EXACTLY as seen in the listing"
+    puts "or type a valid command. Thank-you!"
+    puts
+    continue
+    true
   end
 
   def display_details
@@ -60,22 +79,17 @@ class Cli
     puts "Type 'back' to go back to the listings page or type 'exit' to exit."
     puts
     input
+    invalid_input unless valid_input?("exit", "back")
+  end
+
+  def valid_input?(*input)
+    input.any? { |word| word == @user_input }
   end
 
   def invalid_input
+    puts
     puts "Invalid input... please try again."
     puts
-  end
-
-  def invalid_address?
-    if Scraper.find_property(@user_input).nil?
-      puts
-      puts "Invalid input..."
-      puts "Please type the address EXACTLY as seen in the listing"
-      puts "or type a valid command. Thank-you!"
-      puts
-      input
-    end
   end
 
   def user_input_exit?
