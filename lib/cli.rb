@@ -30,12 +30,13 @@ class Cli
   def display_properties
     puts
     Property.all.each do |home|
-      puts home.address
-      puts "➼ #{home.price}"
-      puts "➼ #{home.beds}"
-      puts "➼ #{home.baths}"
-      puts "➼ #{home.sqft}"
+      puts "‣ " + home.address.bold.underline
+      puts "  ➼ #{home.price}".green
+      puts "  ➼ #{home.beds}"
+      puts "  ➼ #{home.baths}"
+      puts "  ➼ #{home.sqft}"
       puts
+      sleep 0.5
     end
   end
 
@@ -64,8 +65,9 @@ class Cli
     return unless Scraper.find_property(@user_input).nil?
 
     puts
-    puts "Invalid input..."
-    puts "Please type the address EXACTLY as seen in the listing"
+    puts "Invalid input...".red
+    puts "Please type the address " + "exactly ".italic + \
+    "as seen in the listing"
     puts "or type a valid command. Thank-you!"
     puts
     continue
@@ -79,7 +81,10 @@ class Cli
     puts "Type 'back' to go back to the listings page or type 'exit' to exit."
     puts
     input
-    invalid_input unless valid_input?("exit", "back")
+    until valid_input?("exit", "back")
+      invalid_input
+      input
+    end
   end
 
   def valid_input?(*input)
@@ -88,7 +93,7 @@ class Cli
 
   def invalid_input
     puts
-    puts "Invalid input... please try again."
+    puts "Invalid input... please try again.".red
     puts
   end
 
