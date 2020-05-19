@@ -18,8 +18,7 @@ class Cli
   def start
     display_properties
     prompt_user
-    @user_input = gets.strip
-    Scraper.scrape_property_details(@user_input)
+    display_details
   end
 
   def welcome_message
@@ -41,5 +40,21 @@ class Cli
 
   def prompt_user
     puts "To see more information on a property, type its address and press enter."
+    puts
+    @user_input = gets.strip
+  end
+
+  def display_details
+    puts
+    Scraper.scrape_property_details(@user_input)
+    puts
+    puts "To go back to the listings, type 'back' or tpye 'exit' to exit."
+    puts
+    @user_input = gets.strip
+    if @user_input == "back"
+      start
+    elsif @user_input == "exit"
+      return
+    end
   end
 end

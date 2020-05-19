@@ -25,7 +25,7 @@ class Scraper
   end
 
   def homecards
-    html = Nokogiri::HTML(HTTParty.get(BASE_URL))
+    html = Nokogiri::HTML(HTTParty.get(BASE_URL).body)
     html.css(".HomeCardContainer")
   end
 
@@ -35,7 +35,7 @@ class Scraper
 
   def self.home_details(address)
     home = find_property(address)
-    Nokogiri::HTML(HTTParty.get(home.link))
+    Nokogiri::HTML(HTTParty.get(home.link).body)
   end
 
   def self.find_property(address)
