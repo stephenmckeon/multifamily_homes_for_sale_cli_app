@@ -77,6 +77,8 @@ class Cli
   def display_details
     find_or_create_details(@user_input)
     details_display(@user_input)
+    price_insights(@user_input)
+    puts
     puts "Type 'back' to go back to the listings page or type 'exit' to exit."
     puts
     input
@@ -88,7 +90,10 @@ class Cli
 
   def find_or_create_details(address)
     prop = Scraper.find_property(address)
-    Scraper.scrape_home_facts(@user_input) if prop.description.nil?
+    return unless prop.description.nil?
+
+    Scraper.scrape_home_facts(@user_input)
+    Scraper.scrape_price_insights(@user_input)
   end
 
   def details_display(address)
@@ -102,6 +107,24 @@ class Cli
          "     Lot Size: ".bold + prop.lot_size + \
          "     Time on Market: ".bold + prop.time_on_market
     puts
+  end
+
+  def price_insights(address)
+    puts "Would you like to see " + "price insights".green + "?"
+    puts "(type 'yes' or 'no')"
+    puts
+    input
+    until valid_input?("yes", "no", "y", "n")
+      invalid_input
+      input
+    end
+    price_insights_display(address) if @user_input == "yes" || @user_input == "y"
+  end
+
+  def price_insights_display(address)
+    prop = Scraper.find_property(address)
+    puts
+    puts prop.est_mo_payment
   end
 
   def valid_input?(*input)

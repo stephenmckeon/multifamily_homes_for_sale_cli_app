@@ -7,7 +7,8 @@ class Property
   # each instance is initiated with an address, price,
   # bds, bas, sqft (default nil)
   attr_accessor :address, :price, :beds, :baths, :sqft, :link, :description,
-                :year_built, :lot_size, :time_on_market
+                :year_built, :lot_size, :time_on_market, :est_price,
+                :est_mo_payment, :price_sqft
 
   @@all = []
 
@@ -21,11 +22,15 @@ class Property
     @@all << self
   end
 
-  def add_details(description:, year_built:, lot_size:, time_on_market:, est_price:, est_mo_payment:, price_sqft:)
+  def add_home_facts(description:, year_built:, lot_size:, time_on_market:)
     @description = description
     @year_built = year_built
     @lot_size = lot_size
     @time_on_market = time_on_market
+
+  end
+
+  def add_price_insights(est_price:, est_mo_payment:, price_sqft:)
     @est_price = est_price
     @est_mo_payment = est_mo_payment
     @price_sqft = price_sqft

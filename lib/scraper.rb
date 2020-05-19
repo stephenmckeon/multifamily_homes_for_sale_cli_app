@@ -2,9 +2,6 @@
 # This file will use nokogiri, i.e. scrape
 # This file will never use 'puts'
 
-# scrape the details of a home's details -- description, list price, est. price,
-# est. mo. payment, price/sqft, time listed, lot size, year built, MLS#
-
 class Scraper
   attr_accessor :listings_url
 
@@ -32,10 +29,12 @@ class Scraper
     prop = find_property(address)
     link = home_info_link(address)
     home_details = link.css(".keyDetailsList span.content")
-    prop.add_details(
+    prop.add_home_facts(
       description: link.css("#marketing-remarks-scroll").text,
       year_built: home_details[6].text,
-      lot_size: home_details.find { |item| item.text.include?("Sq. Ft.") }.text,
+      lot_size: home_details.find do |item|
+        item.text.include?("Sq. Ft.") || item.text.include?("Acre")
+      end.text,
       time_on_market: home_details[5].text
     )
   end
@@ -44,7 +43,7 @@ class Scraper
     prop = find_property(address)
     link = home_info_link(address)
     home_details = link.css(".keyDetailsList span.content")
-    prop.add_details(
+    prop.add_price_insights(
       est_price: home_details[2].text,
       est_mo_payment: home_details[1].text,
       price_sqft: home_details[3].text
