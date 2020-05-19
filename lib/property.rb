@@ -20,6 +20,13 @@ class Property
     @@all << self
   end
 
+  def add_details(description:, year_built:, lot_size:, time_on_market:)
+    @description = description
+    @year_built = year_built
+    @lot_size = lot_size
+    @time_on_market = time_on_market
+  end
+
   def self.all
     @@all
   end

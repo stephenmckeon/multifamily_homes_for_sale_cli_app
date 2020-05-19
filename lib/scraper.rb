@@ -29,7 +29,14 @@ class Scraper
   end
 
   def self.scrape_property_details(address)
-    puts home_details(address).css("#marketing-remarks-scroll").text
+    prop = find_property(address)
+    link = home_details(address)
+    prop.add_details(
+      description: link.css("#marketing-remarks-scroll").text,
+      year_built: link.css(".keyDetailsList span.content")[6].text,
+      lot_size: link.css(".keyDetailsList span.content")[8].text,
+      time_on_market: link.css(".keyDetailsList span.content")[5].text
+    )
   end
 
   def self.home_details(address)
