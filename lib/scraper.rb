@@ -28,19 +28,30 @@ class Scraper
     html.css(".HomeCardContainer")
   end
 
-  def self.scrape_property_details(address)
+  def self.scrape_home_facts(address)
     prop = find_property(address)
-    link = home_details(address)
-    home_facts = link.css(".keyDetailsList span.content")
+    link = home_info_link(address)
+    home_details = link.css(".keyDetailsList span.content")
     prop.add_details(
       description: link.css("#marketing-remarks-scroll").text,
-      year_built: home_facts[6].text,
-      lot_size: home_facts.find { |item| item.text.include?("Sq. Ft.") }.text,
-      time_on_market: home_facts[5].text
+      year_built: home_details[6].text,
+      lot_size: home_details.find { |item| item.text.include?("Sq. Ft.") }.text,
+      time_on_market: home_details[5].text
     )
   end
 
-  def self.home_details(address)
+  def self.scrape_price_insights(address)
+    prop = find_property(address)
+    link = home_info_link(address)
+    home_details = link.css(".keyDetailsList span.content")
+    prop.add_details(
+      est_price: home_details[2].text,
+      est_mo_payment: home_details[1].text,
+      price_sqft: home_details[3].text
+    )
+  end
+
+  def self.home_info_link(address)
     home = find_property(address)
     Nokogiri::HTML(HTTParty.get(home.link).body)
   end

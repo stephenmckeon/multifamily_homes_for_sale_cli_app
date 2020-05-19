@@ -88,7 +88,7 @@ class Cli
 
   def find_or_create_details(address)
     prop = Scraper.find_property(address)
-    Scraper.scrape_property_details(@user_input) if prop.description.nil?
+    Scraper.scrape_home_facts(@user_input) if prop.description.nil?
   end
 
   def details_display(address)
