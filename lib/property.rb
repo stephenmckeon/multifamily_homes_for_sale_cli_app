@@ -6,7 +6,8 @@
 class Property
   # each instance is initiated with an address, price,
   # bds, bas, sqft (default nil)
-  attr_accessor :address, :price, :beds, :baths, :sqft, :link
+  attr_accessor :address, :price, :beds, :baths, :sqft, :link, :description,
+                :year_built, :lot_size, :time_on_market
 
   @@all = []
 

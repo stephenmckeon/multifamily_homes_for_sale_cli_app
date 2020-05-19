@@ -67,7 +67,7 @@ class Cli
     puts
     puts "Invalid input...".red
     puts "Please type the address " + "exactly ".italic + \
-    "as seen in the listing"
+         "as seen in the listing"
     puts "or type a valid command. Thank-you!"
     puts
     continue
@@ -75,9 +75,8 @@ class Cli
   end
 
   def display_details
-    puts
-    Scraper.scrape_property_details(@user_input)
-    puts
+    find_or_create_details(@user_input)
+    details_display(@user_input)
     puts "Type 'back' to go back to the listings page or type 'exit' to exit."
     puts
     input
@@ -85,6 +84,24 @@ class Cli
       invalid_input
       input
     end
+  end
+
+  def find_or_create_details(address)
+    prop = Scraper.find_property(address)
+    Scraper.scrape_property_details(@user_input) if prop.description.nil?
+  end
+
+  def details_display(address)
+    prop = Scraper.find_property(address)
+    puts
+    puts "Description".underline
+    puts
+    puts prop.description.blue
+    puts
+    puts "Year Built: ".bold + prop.year_built + \
+         "     Lot Size: ".bold + prop.lot_size + \
+         "     Time on Market: ".bold + prop.time_on_market
+    puts
   end
 
   def valid_input?(*input)

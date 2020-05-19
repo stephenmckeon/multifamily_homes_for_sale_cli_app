@@ -31,11 +31,12 @@ class Scraper
   def self.scrape_property_details(address)
     prop = find_property(address)
     link = home_details(address)
+    home_facts = link.css(".keyDetailsList span.content")
     prop.add_details(
       description: link.css("#marketing-remarks-scroll").text,
-      year_built: link.css(".keyDetailsList span.content")[6].text,
-      lot_size: link.css(".keyDetailsList span.content")[8].text,
-      time_on_market: link.css(".keyDetailsList span.content")[5].text
+      year_built: home_facts[6].text,
+      lot_size: home_facts.find { |item| item.text.include?("Sq. Ft.") }.text,
+      time_on_market: home_facts[5].text
     )
   end
 
