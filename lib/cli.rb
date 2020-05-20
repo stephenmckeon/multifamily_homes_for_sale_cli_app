@@ -9,14 +9,11 @@ class Cli
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
-  @@colorizer = Lolize::Colorizer.new
-  # @@colorizer.write
-
   def call
     Scraper.new.scrape_listings
     load_users
     login
-    welcome_message
+    Message.welcome_message
     start
   end
 
@@ -32,46 +29,17 @@ class Cli
     print "Password: ".yellow
     @password = gets.chomp
     if User.verify_account(@username, @password)
-      login_success
+      Message.login_success
     else
-      login_fail
+      Message.login_fail
     end
-  end
-
-  def login_success
-    puts
-    puts "Login Successful!".blue
-    sleep 1
-    puts
-    print "Loading account".blue
-    sleep 1
-    3.times do
-      print ".".blue
-      sleep 1
-    end
-  end
-
-  def login_fail
-    puts
-    puts "Incorrect username or password, please try again.".red
-    puts
-    sleep(3)
-    login
-  end
-
-  def welcome_message
-    puts
-    puts
-    puts "Hello, user! Welcome to the CLI property search."
-    puts "Here are today's multifamily listings in Vineland, NJ:"
-    sleep 2
   end
 
   def start(to_exit = true)
     display_properties
-    prompt_user
+    Message.prompt_user
     continue
-    exit if to_exit
+    Message.exit if to_exit
   end
 
   def display_properties
@@ -85,13 +53,6 @@ class Cli
       puts
       sleep 0.3
     end
-  end
-
-  def prompt_user
-    puts "To see more " + "information ".blue + "on a property, type its " + \
-         "address ".yellow + "and press enter."
-    puts "To " + "exit".red + ", " + "type " + "'exit'."
-    puts
   end
 
   def continue
@@ -112,12 +73,7 @@ class Cli
   def invalid_address?
     return unless Scraper.find_property(@user_input).nil?
 
-    puts
-    puts "Invalid input...".red
-    puts "Please type the address " + "exactly ".italic + \
-         "as seen in the listing"
-    puts "or type a valid command. Thank-you!"
-    puts
+    Message.invalid_address
     continue
     true
   end
@@ -126,12 +82,10 @@ class Cli
     find_or_create_details(@user_input)
     details_display(@user_input)
     price_insights(@user_input)
-    puts
-    puts "Type 'back' to go back to the listings page or type 'exit' to exit."
-    puts
+    Message.back_or_exit
     input
     until valid_input?("exit", "back")
-      invalid_input
+      Message.invalid_input
       input
     end
   end
@@ -146,9 +100,7 @@ class Cli
 
   def details_display(address)
     prop = Scraper.find_property(address)
-    puts
-    puts "Description".underline
-    puts
+    Message.description
     puts prop.description.blue
     puts
     puts "Year Built: ".bold + prop.year_built + \
@@ -158,16 +110,20 @@ class Cli
   end
 
   def price_insights(address)
-    puts "Would you like to see " + "price insights ".green + \
-         "for " + @user_input.yellow + "?"
-    puts "(type 'yes' or 'no')"
-    puts
+    see_price_insights?
     input
     until valid_input?("yes", "no", "y", "n")
-      invalid_input
+      Message.invalid_input
       input
     end
     price_insights_display(address) if @user_input == "yes" || @user_input == "y"
+  end
+
+  def see_price_insights?
+    puts "Would you like to see " + "price insights ".green + \
+         "for " + @user_input.yellow + "?"
+    puts "(type " + "'yes'".white.on_green + " or " + "'no')".white.on_red
+    puts
   end
 
   def price_insights_display(address)
@@ -180,22 +136,11 @@ class Cli
     input.any? { |word| word == @user_input }
   end
 
-  def invalid_input
-    puts
-    puts "Invalid input... please try again.".red
-    puts
-  end
-
   def user_input_exit?
     @user_input.casecmp("exit").zero?
   end
 
   def user_input_back?
     @user_input.casecmp("back").zero?
-  end
-
-  def exit
-    puts
-    puts "Happy house hunting. Goodbye!"
   end
 end
