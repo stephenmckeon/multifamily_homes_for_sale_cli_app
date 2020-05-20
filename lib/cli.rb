@@ -11,8 +11,33 @@ class Cli
 
   def call
     Scraper.new.scrape_listings
+    load_users
+    login
     welcome_message
     start
+  end
+
+  def load_users
+    User.new(name: "Steve", username: "stephenmckeon", password: "love2code")
+  end
+
+  def login
+    puts "Welcome to the CLI property search. Please login to continue:"
+    puts "Username:"
+    @username = gets.chomp
+    puts "Password"
+    @password = gets.chomp
+    if User.verify_account(@username, @password)
+      puts "Login Successful!".blue
+      sleep(2)
+      puts
+      puts "Loading account..."
+      puts
+      sleep(3)
+    else
+      puts "Incorrect username or password, please try again.".red
+      login
+    end
   end
 
   def welcome_message
@@ -43,7 +68,7 @@ class Cli
   def prompt_user
     puts "To see more " + "information ".blue + "on a property, type its " + \
          "address ".yellow + "and press enter."
-    puts "To " + "exit".red + ", " + "type " + "'exit'".red + "."
+    puts "To " + "exit".red + ", " + "type " + "'exit'."
     puts
   end
 
