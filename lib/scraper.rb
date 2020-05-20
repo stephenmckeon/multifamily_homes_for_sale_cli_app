@@ -22,8 +22,8 @@ class Scraper
     html.css(".ContextualInterlinksTable")[1].css("table a")
   end
 
-  def scrape_listings
-    homecards.each do |home|
+  def scrape_listings(city_name)
+    homecards(city_name).each do |home|
       Property.new(
         address: home.css(".addressDisplay").text,
         price: home.css(".homecardV2Price").text,
@@ -35,8 +35,9 @@ class Scraper
     end
   end
 
-  def homecards
-    html = Nokogiri::HTML(HTTParty.get(BASE_URL).body)
+  def homecards(city_name)
+    city = Scraper.find_city(city_name)
+    html = Nokogiri::HTML(HTTParty.get(city.link).body)
     html.css(".HomeCardContainer")
   end
 
@@ -74,6 +75,10 @@ class Scraper
   def self.home_info_link(address)
     home = find_property(address)
     Nokogiri::HTML(HTTParty.get(home.link).body)
+  end
+
+  def self.find_city(name)
+    City.all.find { |city| city.name == name }
   end
 
   def self.find_property(address)

@@ -9,7 +9,7 @@ module Message
     puts
   end
 
-  def description_and_details(property)
+  def display_description_and_details(property)
     puts
     puts "Description".underline
     puts
@@ -21,10 +21,20 @@ module Message
     puts
   end
 
+  def display_market
+    puts
+    puts
+    City.all.each do |city|
+      puts "‣ " + city.name.light_yellow
+      sleep 0.2
+    end
+    puts
+  end
+
   def display_properties
     puts
     Property.all.each do |home|
-      puts "‣ " + home.address.underline
+      puts "‣ " + home.address.underline.yellow
       puts "  ➼ #{home.price}".green
       puts "  ➼ #{home.beds}"
       puts "  ➼ #{home.baths}"
@@ -40,11 +50,11 @@ module Message
     puts
   end
 
-  def invalid_address
+  def invalid_selection
     puts
     puts "Invalid input...".red
-    puts "Please type the address " + "exactly ".italic + \
-         "as seen in the listing"
+    puts "Please type your selection " + "exactly ".italic + \
+         "as seen in the list"
     puts "or type a valid command. Thank-you!"
     puts
   end
@@ -92,7 +102,11 @@ module Message
          "     Price/Sqft:         ".bold + property.price_sqft
   end
 
-  def prompt_user
+  def prompt_user_city
+    puts "Please select a city to search by typing it's name."
+  end
+
+  def prompt_user_address
     puts "To see more " + "information ".blue + "on a property, type its " + \
          "address ".yellow + "and press enter."
     puts "To " + "exit".red + ", " + "type " + "'exit'."
@@ -113,7 +127,6 @@ module Message
     print "Hello, "
     @@colorizer.write @user.name
     print "! Welcome to the CLI property search. "
-    puts "Here are today's house listings in Vineland, NJ:"
     sleep 2
   end
 end

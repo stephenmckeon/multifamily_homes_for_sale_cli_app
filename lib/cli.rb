@@ -6,6 +6,7 @@ require_relative "./message"
 
 class Cli
   # --IDEAS--
+  # Dont' Scrape until after login success, then scrape. Remove sleep after Hello, guest! and scrape then
   # select a market to search after welcome message
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
@@ -13,7 +14,8 @@ class Cli
   include Message
 
   def call
-    Scraper.new.scrape_listings
+    @scraper = Scraper.new
+    @scraper.scrape_cities
     load_users
     login
     welcome_message
@@ -46,24 +48,39 @@ class Cli
     end
   end
 
+  def select_market
+    display_market
+    prompt_user_city
+    input
+  end
+
   def guest_mode
     @user = User.new(name: "guest", username: "", password: "", market: "")
   end
 
   def start(to_exit = true)
-    display_properties
-    prompt_user
-    continue
+    select_market
+    select_property
     exit if to_exit
+  end
+
+  def select_property
+    @scraper.scrape_listings(@user_input)
+    display_properties
+    prompt_user_address
+    input
+    find_or_create_details(@user_input)
+    price_insights(@user_input)
   end
 
   def continue
     input
     unless user_input_exit?
+      return if invalid_city?
 
-      return if invalid_address?
-
-      display_details
+      @scraper.scrape_listings(@user_input)
+      display_properties
+      prompt_user_address
     end
     start(false) if user_input_back?
   end
@@ -72,10 +89,18 @@ class Cli
     @user_input = gets.strip
   end
 
+  def invalid_city?
+    return unless Scraper.find_city(@user_input).nil?
+
+    invalid_selection
+    continue
+    true
+  end
+
   def invalid_address?
     return unless Scraper.find_property(@user_input).nil?
 
-    invalid_address
+    invalid_selection
     continue
     true
   end
