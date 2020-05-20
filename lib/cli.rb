@@ -8,6 +8,9 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
+  ###
+  # search to see if City.all.nil? if so, scrape for cities, if not dont do anything
+  ###
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
@@ -25,18 +28,22 @@ class Cli
 
   def start(to_exit = true)
     @scraper.scrape_cities
-    until @user_input == "exit"
-      select_market
-      select_property
-      display_details
-    end
-    exit if to_exit
+    select_market
+    select_property
+    display_details
+
+    goodbye if to_exit
   end
 
   def select_market
     display_market
     prompt_user_city
     input
+    if @user_input == "exit"
+      goodbye
+    elsif @user_input == "sign out"
+      call
+    end
   end
 
   def select_property
@@ -44,6 +51,15 @@ class Cli
     display_properties
     prompt_user_address
     input
+  end
+
+  def display_details
+    find_or_create_details(@user_input)
+    details_display(@user_input)
+    price_insights(@user_input)
+    back_or_exit
+    input
+    until_valid_input("exit", "back")
   end
 
   # def continue
@@ -57,31 +73,6 @@ class Cli
   #   end
   #   start(false) if user_input_back?
   # end
-
-  def invalid_city?
-    return unless Scraper.find_city(@user_input).nil?
-
-    invalid_selection
-    continue
-    true
-  end
-
-  def invalid_address?
-    return unless Scraper.find_property(@user_input).nil?
-
-    invalid_selection
-    continue
-    true
-  end
-
-  def display_details
-    find_or_create_details(@user_input)
-    details_display(@user_input)
-    price_insights(@user_input)
-    back_or_exit
-    input
-    until_valid_input("exit", "back")
-  end
 
   def find_or_create_details(address)
     property = Scraper.find_property(address)
@@ -109,4 +100,20 @@ class Cli
     property = Scraper.find_property(address)
     price_insights_info(property)
   end
+end
+
+def invalid_city?
+  return unless Scraper.find_city(@user_input).nil?
+
+  invalid_selection
+  continue
+  true
+end
+
+def invalid_address?
+  return unless Scraper.find_property(@user_input).nil?
+
+  invalid_selection
+  continue
+  true
 end

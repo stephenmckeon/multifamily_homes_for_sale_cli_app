@@ -44,10 +44,11 @@ module Message
     end
   end
 
-  def exit
+  def goodbye
     puts
     @@colorizer.write "Happy house hunting. Goodbye!"
     puts
+    exit
   end
 
   def invalid_selection
@@ -104,6 +105,7 @@ module Message
 
   def prompt_user_city
     puts "Please select a city to search by typing it's name."
+    puts "You can also type 'sign out' to sign out, or type 'exit' to exit."
   end
 
   def prompt_user_address
