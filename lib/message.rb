@@ -30,7 +30,7 @@ module Message
       puts "  ➼ #{home.baths}"
       puts "  ➼ #{home.sqft}"
       puts
-      sleep 0.3
+      sleep 0.2
     end
   end
 
@@ -84,7 +84,7 @@ module Message
     end
   end
 
-  def price_insights(property)
+  def price_insights_info(property)
     puts
     puts "List Price:        ".bold + property.price + \
          "     Est. Mo. Payments:  ".bold + property.est_mo_payment

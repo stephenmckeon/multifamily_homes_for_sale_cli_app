@@ -105,23 +105,23 @@ class Cli
   def price_insights(address)
     see_price_insights?(@user_input)
     input
-    until_valid_input("yes", "no", "y", "n")
-    return if @user_input == "no" || @user_input == "n"
+    until_valid_input("yes", "no")
+    return if @user_input == "no"
 
     price_insights_display(address)
   end
 
   def price_insights_display(address)
     property = Scraper.find_property(address)
-    price_insights(property)
+    price_insights_info(property)
   end
 
-  def valid_input?(*input)
-    input.any? { |word| word == @user_input }
+  def valid_input?(*spec_input)
+    spec_input.any? { |word| word == @user_input }
   end
 
-  def until_valid_input(*input)
-    until valid_input?(*input)
+  def until_valid_input(*spec_input)
+    until valid_input?(*spec_input)
       invalid_input
       input
     end
