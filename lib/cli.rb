@@ -10,8 +10,6 @@ class Cli
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
-  # welcome, to login type login. to continue as guest, type guest. to exit, type exit.
-
   include Message
 
   def call
@@ -23,7 +21,8 @@ class Cli
   end
 
   def load_users
-    User.new(name: "Steve", username: "stephenmckeon", password: "love2code")
+    User.new(name: "Steve", username: "stephenmckeon", password: "love2code", \
+             market: "Mantua Township")
   end
 
   def login

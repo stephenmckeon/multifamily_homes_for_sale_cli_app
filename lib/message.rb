@@ -4,7 +4,8 @@ module Message
 
   def back_or_exit
     puts
-    puts "Type 'back' to go " + "back ".white.bold + "to the listings page or type 'exit' to " + "exit".red + "."
+    puts "Type 'back' to go " + "back ".white.bold + \
+         "to the listings page or type 'exit' to " + "exit".red + "."
     puts
   end
 
@@ -101,7 +102,8 @@ module Message
   def see_price_insights?(user_input)
     puts "Would you like to see " + "price insights ".green + \
          "for " + user_input.yellow + "?"
-    puts "(type " + "'yes'".light_black.on_green + " or " + "'no'".white.on_red + ")"
+    puts "(type " + "'yes'".light_black.on_green + \
+         " or " + "'no'".white.on_red + ")"
     puts
   end
 
@@ -109,7 +111,7 @@ module Message
     puts
     puts
     print "Hello, "
-    @@colorizer.write "#{@user.name}"
+    @@colorizer.write @user.name
     print "! Welcome to the CLI property search. "
     puts "Here are today's house listings in Vineland, NJ:"
     sleep 2
