@@ -2,6 +2,7 @@
 # This is where I will use 'puts'
 # This will never use nokogiri
 # This will invoke Scraper
+require_relative "./message"
 
 class Cli
   # --IDEAS--
@@ -11,11 +12,13 @@ class Cli
 
   # welcome, to login type login. to continue as guest, type guest. to exit, type exit.
 
+  include Message
+
   def call
     Scraper.new.scrape_listings
     load_users
     login
-    Message.welcome_message
+    welcome_message
     start
   end
 
@@ -24,22 +27,38 @@ class Cli
   end
 
   def login
-    Message.login_message
+    login_message
+    input
+    puts
+    until valid_input?("login", "guest")
+      invalid_input
+      input
+    end
+    @user_input == "login" ? verify_login : guest_mode
+  end
+
+  def verify_login
+    print "Username: ".yellow
     @username = gets.chomp
     print "Password: ".yellow
     @password = gets.chomp
     if User.verify_account(@username, @password)
-      Message.login_success
+      login_success
+      @user = User.find_user_by_username(@username)
     else
-      Message.login_fail
+      login_fail
     end
   end
 
+  def guest_mode
+    @user = User.new(name: "guest", username: "", password: "" )
+  end
+
   def start(to_exit = true)
-    Message.display_properties
-    Message.prompt_user
+    display_properties
+    prompt_user
     continue
-    Message.exit if to_exit
+    exit if to_exit
   end
 
   def continue
@@ -60,7 +79,7 @@ class Cli
   def invalid_address?
     return unless Scraper.find_property(@user_input).nil?
 
-    Message.invalid_address
+    invalid_address
     continue
     true
   end
@@ -69,10 +88,10 @@ class Cli
     find_or_create_details(@user_input)
     details_display(@user_input)
     price_insights(@user_input)
-    Message.back_or_exit
+    back_or_exit
     input
     until valid_input?("exit", "back")
-      Message.invalid_input
+      invalid_input
       input
     end
   end
@@ -87,14 +106,14 @@ class Cli
 
   def details_display(address)
     property = Scraper.find_property(address)
-    Message.description_and_details(property)
+    description_and_details(property)
   end
 
   def price_insights(address)
-    Message.see_price_insights?(@user_input)
+    see_price_insights?(@user_input)
     input
     until valid_input?("yes", "no", "y", "n")
-      Message.invalid_input
+      invalid_input
       input
     end
     return unless @user_input == "yes" || @user_input == "y"
@@ -104,7 +123,7 @@ class Cli
 
   def price_insights_display(address)
     property = Scraper.find_property(address)
-    Message.price_insights(property)
+    price_insights(property)
   end
 
   def valid_input?(*input)
