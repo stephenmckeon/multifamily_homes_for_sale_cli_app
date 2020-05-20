@@ -8,8 +8,6 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
-  # Dont' Scrape until after login success, then scrape. Remove sleep after Hello, guest! and scrape then
-  # select a market to search after welcome message
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
@@ -19,32 +17,26 @@ class Cli
 
   def call
     @scraper = Scraper.new
-    @scraper.scrape_cities
     load_users
     login
     welcome_message
     start
   end
 
-
-
-  def select_market
-    display_market
-    prompt_user_city
-    input
-  end
-
-  def guest_mode
-    @user = User.new(name: "guest", username: "", password: "", market: "")
-  end
-
   def start(to_exit = true)
+    @scraper.scrape_cities
     until @user_input == "exit"
       select_market
       select_property
       display_details
     end
     exit if to_exit
+  end
+
+  def select_market
+    display_market
+    prompt_user_city
+    input
   end
 
   def select_property

@@ -122,11 +122,12 @@ module Message
   end
 
   def welcome_message
-    puts
+    sleep 1
     puts
     print "Hello, "
     @@colorizer.write @user.name
     print "! Welcome to the CLI property search. "
-    sleep 2
+    puts
+    puts "Loading cities in Gloucester County..."
   end
 end

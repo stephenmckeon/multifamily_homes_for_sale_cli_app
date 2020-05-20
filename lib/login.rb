@@ -24,4 +24,8 @@ module Login
       login_fail
     end
   end
+
+  def guest_mode
+    @user = User.new(name: "guest", username: "", password: "", market: "")
+  end
 end
