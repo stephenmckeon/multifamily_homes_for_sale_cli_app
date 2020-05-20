@@ -15,9 +15,9 @@ module Message
     puts
     puts property.description.blue
     puts
-    puts "Year Built: ".bold + property.year_built + \
-         "     Lot Size: ".bold + property.lot_size + \
-         "     Time on Market: ".bold + property.time_on_market
+    puts "Year Built: ".light_black.bold + property.year_built + \
+         "     Lot Size: ".light_black.bold + property.lot_size + \
+         "     Time on Market: ".light_black.bold + property.time_on_market
     puts
   end
 

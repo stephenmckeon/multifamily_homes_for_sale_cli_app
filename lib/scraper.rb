@@ -15,7 +15,6 @@ class Scraper
         link: city.attribute("href").value
       )
     end
-    binding.pry
   end
 
   def city_url
@@ -45,12 +44,11 @@ class Scraper
     prop = find_property(address)
     link = home_info_link(address)
     home_details = link.css(".keyDetailsList span.content")
+    lot_size = lot_size_check(home_details)
     prop.add_home_facts(
       description: link.css("#marketing-remarks-scroll").text,
       year_built: home_details[6].text,
-      lot_size: home_details.find do |item|
-        item.text.include?("Sq. Ft.") || item.text.include?("Acre")
-      end.text,
+      lot_size: lot_size,
       time_on_market: home_details[5].text
     )
   end
@@ -64,6 +62,13 @@ class Scraper
       est_mo_payment: home_details[1].text,
       price_sqft: home_details[3].text
     )
+  end
+
+  def self.lot_size_check(home_details)
+    lot_size = home_details.find do |item|
+      item.text.include?("Sq. Ft.") || item.text.include?("Acre")
+    end
+    lot_size.nil? ? "-- " : lot_size
   end
 
   def self.home_info_link(address)

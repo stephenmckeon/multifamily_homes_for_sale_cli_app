@@ -29,10 +29,7 @@ class Cli
     login_message
     input
     puts
-    until valid_input?("login", "guest")
-      invalid_input
-      input
-    end
+    until_valid_input("login", "guest")
     @user_input == "login" ? verify_login : guest_mode
   end
 
@@ -50,7 +47,7 @@ class Cli
   end
 
   def guest_mode
-    @user = User.new(name: "guest", username: "", password: "" )
+    @user = User.new(name: "guest", username: "", password: "", market: "")
   end
 
   def start(to_exit = true)
@@ -89,10 +86,7 @@ class Cli
     price_insights(@user_input)
     back_or_exit
     input
-    until valid_input?("exit", "back")
-      invalid_input
-      input
-    end
+    until_valid_input("exit", "back")
   end
 
   def find_or_create_details(address)
@@ -111,11 +105,8 @@ class Cli
   def price_insights(address)
     see_price_insights?(@user_input)
     input
-    until valid_input?("yes", "no", "y", "n")
-      invalid_input
-      input
-    end
-    return unless @user_input == "yes" || @user_input == "y"
+    until_valid_input("yes", "no", "y", "n")
+    return if @user_input == "no" || @user_input == "n"
 
     price_insights_display(address)
   end
@@ -127,6 +118,13 @@ class Cli
 
   def valid_input?(*input)
     input.any? { |word| word == @user_input }
+  end
+
+  def until_valid_input(*input)
+    until valid_input?(*input)
+      invalid_input
+      input
+    end
   end
 
   def user_input_exit?

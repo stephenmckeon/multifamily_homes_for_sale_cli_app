@@ -3,10 +3,11 @@ class User
 
   @@all = []
 
-  def initialize(name:, username:, password:)
+  def initialize(name:, username:, password:, market:)
     @name = name
     @username = username
     @password = password
+    @market = market
     @@all << self
   end
 
