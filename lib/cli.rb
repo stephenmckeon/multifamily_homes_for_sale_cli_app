@@ -3,6 +3,7 @@
 # This will never use nokogiri
 # This will invoke Scraper
 require_relative "./message"
+require_relative "./input"
 
 class Cli
   # --IDEAS--
@@ -12,6 +13,7 @@ class Cli
   ## have guest profile with no password that makes you select an area to search
 
   include Message
+  include Input
 
   def call
     @scraper = Scraper.new
@@ -59,8 +61,11 @@ class Cli
   end
 
   def start(to_exit = true)
-    select_market
-    select_property
+    until @user_input == "exit"
+      select_market
+      select_property
+      display_details
+    end
     exit if to_exit
   end
 
@@ -69,25 +74,20 @@ class Cli
     display_properties
     prompt_user_address
     input
-    find_or_create_details(@user_input)
-    price_insights(@user_input)
   end
 
-  def continue
-    input
-    unless user_input_exit?
-      return if invalid_city?
+  # def continue
+  #   input
+  #   unless user_input_exit?
+  #     return if invalid_city?
 
-      @scraper.scrape_listings(@user_input)
-      display_properties
-      prompt_user_address
-    end
-    start(false) if user_input_back?
-  end
+  #     @scraper.scrape_listings(@user_input)
+  #     display_properties
+  #     prompt_user_address
+  #   end
+  #   start(false) if user_input_back?
+  # end
 
-  def input
-    @user_input = gets.strip
-  end
 
   def invalid_city?
     return unless Scraper.find_city(@user_input).nil?
@@ -124,7 +124,7 @@ class Cli
 
   def details_display(address)
     property = Scraper.find_property(address)
-    description_and_details(property)
+    display_description_and_details(property)
   end
 
   def price_insights(address)
@@ -139,24 +139,5 @@ class Cli
   def price_insights_display(address)
     property = Scraper.find_property(address)
     price_insights_info(property)
-  end
-
-  def valid_input?(*spec_input)
-    spec_input.any? { |word| word == @user_input }
-  end
-
-  def until_valid_input(*spec_input)
-    until valid_input?(*spec_input)
-      invalid_input
-      input
-    end
-  end
-
-  def user_input_exit?
-    @user_input.casecmp("exit").zero?
-  end
-
-  def user_input_back?
-    @user_input.casecmp("back").zero?
   end
 end
