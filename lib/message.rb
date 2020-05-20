@@ -5,7 +5,7 @@ class Message
 
   def self.back_or_exit
     puts
-    puts "Type 'back' to go " + "back ".white + "to the listings page or type 'exit' to " + "exit".red + "."
+    puts "Type 'back' to go " + "back ".white.bold + "to the listings page or type 'exit' to " + "exit".red + "."
     puts
   end
 
@@ -64,22 +64,30 @@ class Message
   end
 
   def self.login_message
-    print "Welcome to the CLI property search. Please login to continue:".blue
-    puts
+    puts "Welcome to the CLI property search!"
+    puts "Please login to continue:".blue
     print "Username: ".yellow
   end
 
   def self.login_success
     puts
     puts "Login Successful!".blue
-    sleep 1
+    sleep 0.7
     puts
     print "Loading account".blue
-    sleep 1
+    sleep 0.5
     3.times do
       print ".".blue
-      sleep 1
+      sleep 0.7
     end
+  end
+
+  def self.price_insights(property)
+    puts
+    puts "List Price:        ".bold + property.price + \
+         "     Est. Mo. Payments:  ".bold + property.est_mo_payment
+    puts "Redfin Est Price:  ".bold + property.est_price + \
+         "     Price/Sqft:         ".bold + property.price_sqft
   end
 
   def self.prompt_user
@@ -92,7 +100,7 @@ class Message
   def self.see_price_insights?(user_input)
     puts "Would you like to see " + "price insights ".green + \
          "for " + user_input.yellow + "?"
-    puts "(type " + "'yes'".black.on_green + " or " + "'no'".white.on_red + ")"
+    puts "(type " + "'yes'".light_black.on_green + " or " + "'no'".white.on_red + ")"
     puts
   end
 

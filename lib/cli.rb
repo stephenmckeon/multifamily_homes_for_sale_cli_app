@@ -9,6 +9,8 @@ class Cli
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
+  # welcome, to login type login. to continue as guest, type guest. to exit, type exit.
+
   def call
     Scraper.new.scrape_listings
     load_users
@@ -76,16 +78,16 @@ class Cli
   end
 
   def find_or_create_details(address)
-    prop = Scraper.find_property(address)
-    return unless prop.description.nil?
+    property = Scraper.find_property(address)
+    return unless property.description.nil?
 
     Scraper.scrape_home_facts(@user_input)
     Scraper.scrape_price_insights(@user_input)
   end
 
   def details_display(address)
-    prop = Scraper.find_property(address)
-    Message.description_and_details(prop)
+    property = Scraper.find_property(address)
+    Message.description_and_details(property)
   end
 
   def price_insights(address)
@@ -101,9 +103,8 @@ class Cli
   end
 
   def price_insights_display(address)
-    prop = Scraper.find_property(address)
-    puts
-    puts prop.est_mo_payment
+    property = Scraper.find_property(address)
+    Message.price_insights(property)
   end
 
   def valid_input?(*input)
