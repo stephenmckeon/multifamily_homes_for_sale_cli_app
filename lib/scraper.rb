@@ -5,7 +5,23 @@
 class Scraper
   attr_accessor :listings_url
 
-  BASE_URL = "https://www.redfin.com/city/19265/NJ/Vineland/filter/property-type=multifamily"
+  # BASE_URL = "https://www.redfin.com/city/19265/NJ/Vineland/filter/property-type=multifamily"
+  BASE_URL = "https://www.redfin.com/county/1898/NJ/Gloucester-County"
+
+  def scrape_cities
+    city_url.each do |city|
+      City.new(
+        name: city.text,
+        link: city.attribute("href").value
+      )
+    end
+    binding.pry
+  end
+
+  def city_url
+    html = Nokogiri::HTML(HTTParty.get(BASE_URL).body)
+    html.css(".ContextualInterlinksTable")[1].css("table a")
+  end
 
   def scrape_listings
     homecards.each do |home|
@@ -15,7 +31,7 @@ class Scraper
         beds: home.css(".stats")[0].text,
         baths: home.css(".stats")[1].text,
         sqft: home.css(".stats")[2].text,
-        link: home.css(".scrollable a").attribute("href").value,
+        link: home.css(".scrollable a").attribute("href").value
       )
     end
   end
