@@ -22,9 +22,7 @@ class Cli
   end
 
   def login
-    print "Welcome to the CLI property search. Please login to continue:".blue
-    puts
-    print "Username: ".yellow
+    Message.login_message
     @username = gets.chomp
     print "Password: ".yellow
     @password = gets.chomp
@@ -36,23 +34,10 @@ class Cli
   end
 
   def start(to_exit = true)
-    display_properties
+    Message.display_properties
     Message.prompt_user
     continue
     Message.exit if to_exit
-  end
-
-  def display_properties
-    puts
-    Property.all.each do |home|
-      puts "‣ " + home.address.bold.underline
-      puts "  ➼ #{home.price}".green
-      puts "  ➼ #{home.beds}"
-      puts "  ➼ #{home.baths}"
-      puts "  ➼ #{home.sqft}"
-      puts
-      sleep 0.3
-    end
   end
 
   def continue
@@ -100,30 +85,19 @@ class Cli
 
   def details_display(address)
     prop = Scraper.find_property(address)
-    Message.description
-    puts prop.description.blue
-    puts
-    puts "Year Built: ".bold + prop.year_built + \
-         "     Lot Size: ".bold + prop.lot_size + \
-         "     Time on Market: ".bold + prop.time_on_market
-    puts
+    Message.description_and_details(prop)
   end
 
   def price_insights(address)
-    see_price_insights?
+    Message.see_price_insights?(@user_input)
     input
     until valid_input?("yes", "no", "y", "n")
       Message.invalid_input
       input
     end
-    price_insights_display(address) if @user_input == "yes" || @user_input == "y"
-  end
+    return unless @user_input == "yes" || @user_input == "y"
 
-  def see_price_insights?
-    puts "Would you like to see " + "price insights ".green + \
-         "for " + @user_input.yellow + "?"
-    puts "(type " + "'yes'".white.on_green + " or " + "'no')".white.on_red
-    puts
+    price_insights_display(address)
   end
 
   def price_insights_display(address)
