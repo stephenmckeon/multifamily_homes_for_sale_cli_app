@@ -9,6 +9,9 @@ class Cli
   ## have a profile setup with password that knows your default seach area
   ## have guest profile with no password that makes you select an area to search
 
+  @@colorizer = Lolize::Colorizer.new
+  # @@colorizer.write
+
   def call
     Scraper.new.scrape_listings
     load_users
@@ -22,27 +25,46 @@ class Cli
   end
 
   def login
-    puts "Welcome to the CLI property search. Please login to continue:"
-    puts "Username:"
+    print "Welcome to the CLI property search. Please login to continue:".blue
+    puts
+    print "Username: ".yellow
     @username = gets.chomp
-    puts "Password"
+    print "Password: ".yellow
     @password = gets.chomp
     if User.verify_account(@username, @password)
-      puts "Login Successful!".blue
-      sleep(2)
-      puts
-      puts "Loading account..."
-      puts
-      sleep(3)
+      login_success
     else
-      puts "Incorrect username or password, please try again.".red
-      login
+      login_fail
     end
   end
 
+  def login_success
+    puts
+    puts "Login Successful!".blue
+    sleep 1
+    puts
+    print "Loading account".blue
+    sleep 1
+    3.times do
+      print ".".blue
+      sleep 1
+    end
+  end
+
+  def login_fail
+    puts
+    puts "Incorrect username or password, please try again.".red
+    puts
+    sleep(3)
+    login
+  end
+
   def welcome_message
+    puts
+    puts
     puts "Hello, user! Welcome to the CLI property search."
     puts "Here are today's multifamily listings in Vineland, NJ:"
+    sleep 2
   end
 
   def start(to_exit = true)
