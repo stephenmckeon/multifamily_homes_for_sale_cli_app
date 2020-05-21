@@ -6,7 +6,7 @@
 class Property
   attr_accessor :address, :price, :beds, :baths, :sqft, :link, :description,
                 :year_built, :lot_size, :time_on_market, :est_price,
-                :est_mo_payment, :price_sqft
+                :est_mo_payment, :price_sqft, :ascii_art
 
   @@all = []
 
@@ -17,6 +17,7 @@ class Property
     @baths = baths
     @sqft = sqft
     @link = "https://www.redfin.com" + link
+    @ascii_art = "./lib/Ascii Art/AsciiArt" + rand(1..5).to_s
     @@all << self
   end
 

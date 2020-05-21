@@ -45,6 +45,7 @@ class Scraper
     lot_size_check
     year_built_check
     time_on_market_check
+    est_price_check
     @property.add_home_facts(
       description: @link.css("#marketing-remarks-scroll").text,
       year_built: @year_built,
@@ -55,7 +56,7 @@ class Scraper
 
   def self.scrape_price_insights
     @property.add_price_insights(
-      est_price: @home_details[2].text,
+      est_price: @est_price,
       est_mo_payment: @home_details[1].text,
       price_sqft: @home_details[3].text
     )
@@ -89,6 +90,14 @@ class Scraper
       item.text.include?("day")
     end
     @time_on_market = time_on_market.nil? ? "-- " : time_on_market.text
+  end
+
+  def self.est_price_check
+    est_price = nil
+    if @home_details[2].text.length.between?(7, 8)
+      est_price = @home_details[2].text
+    end
+    @est_price = est_price.nil? ? "-- " : est_price
   end
 
   def self.home_info_link(address)

@@ -8,9 +8,8 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
-  # be more specific on scraping for details
-  # 871 Corkery Ln est list price comes back as 'Active'
-  # no listings in blackwood, let user know!
+  # class << Self
+  # refactor self.scrape_home_facts(address)
   # profile knows birthday
   # puts can be replaced by \n \ ... ask andrew or pat
   ## fix welcome to welcome to Glouster County Cli Prop search

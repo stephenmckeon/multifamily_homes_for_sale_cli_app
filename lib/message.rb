@@ -4,13 +4,14 @@ module Message
 
   def back_exit_or_open_message
     puts
-    puts "Type 'open' to " + "open ".white.bold + "this listing in browser, "
-    puts "type 'back' to go " + "back ".cyan + \
+    puts "Type 'open' to " + "open ".white.bold + "this listing in browser, " + \
+         "type 'back' to go " + "back ".cyan + \
          "to the listings page, or type 'exit' to " + "exit".red + "."
     puts
   end
 
   def display_description_and_details(property)
+    puts File.open(property.ascii_art).read
     puts
     puts "Description".underline
     puts
