@@ -8,11 +8,20 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
-  ###
-  # search to see if City.all.nil? if so, scrape for cities, if not dont do anything
-  ###
-  ## have a profile setup with password that knows your default seach area
-  ## have guest profile with no password that makes you select an area to search
+  # be more specific on scraping for details
+  # light black on prop details
+  # profile knows birthday
+  # puts can be replaced by \n \ ... ask andrew or pat
+  ## display random ascii art when looking at home details
+  ## profile knows your default seach area
+  ## guest profile makes you select an area to search
+  ## choose multifam or single fam ?
+
+  # Where should each method really? find_city in Scraper??? NOOOO!!!
+
+  # when a city is seclected the properties that are created belong to a city
+  # When a city is called, Cli checks to see if that city already has properties, if it does, then do not create more props
+  # if not, make props that belong to city (step1)
 
   include Message
   include Input
@@ -45,8 +54,10 @@ class Cli
   end
 
   def select_property
-    @scraper.scrape_listings(@market_input)
-    display_properties
+    find_or_scrape_properties(@market_input)
+    # @scraper.scrape_listings(@market_input) # here is where Prop are made; turn this into find or create props
+    city = Scraper.find_city(@market_input)
+    display_properties(city)
     prompt_user_address
     select_property_input
     display_details
@@ -70,6 +81,11 @@ class Cli
 
   def find_or_create_cities
     @scraper.scrape_cities if City.all.empty?
+  end
+
+  def find_or_scrape_properties(city_name)
+    city = Scraper.find_city(city_name)
+    @scraper.scrape_listings(city) if city.properties.empty?
   end
 
   def find_or_create_details(address)

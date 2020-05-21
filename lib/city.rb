@@ -1,5 +1,5 @@
 class City
-  attr_accessor :name, :link
+  attr_accessor :name, :link, :properties
 
   @@all = []
 
@@ -8,6 +8,7 @@ class City
     @link = "https://www.redfin.com" + link + \
             "/filter/property-type=multifamily"
     @@all << self
+    @properties = []
   end
 
   def self.all

@@ -31,8 +31,8 @@ module Message
     puts
   end
 
-  def display_properties
-    Property.all.each do |home|
+  def display_properties(city)
+    city.properties.each do |home|
       puts "‣ " + home.address.underline.yellow
       puts "  ➼ #{home.price}".green
       puts "  ➼ #{home.beds}"
