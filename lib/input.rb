@@ -12,6 +12,12 @@ module Input
 
   def input
     @user_input = gets.strip
+    goodbye if @user_input == "exit"
+  end
+
+  def market_input
+    @market_input = gets.strip
+    goodbye if @user_input == "exit"
   end
 
   def user_input_exit?

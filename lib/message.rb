@@ -32,7 +32,6 @@ module Message
   end
 
   def display_properties
-    puts
     Property.all.each do |home|
       puts "‣ " + home.address.underline.yellow
       puts "  ➼ #{home.price}".green
@@ -93,6 +92,7 @@ module Message
       print ".".blue
       sleep 0.7
     end
+    puts
   end
 
   def price_insights_info(property)
@@ -111,7 +111,8 @@ module Message
   def prompt_user_address
     puts "To see more " + "information ".blue + "on a property, type its " + \
          "address ".yellow + "and press enter."
-    puts "To " + "exit".red + ", " + "type " + "'exit'."
+    puts "To go back to city selection, type 'back'. To " + \
+         "exit".red + ", " + "type " + "'exit'."
     puts
   end
 

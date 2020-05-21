@@ -26,13 +26,10 @@ class Cli
     start
   end
 
-  def start(to_exit = true)
-    @scraper.scrape_cities
+  def start
+    find_or_create_cities
     select_market
     select_property
-    display_details
-
-    goodbye if to_exit
   end
 
   def select_market
@@ -42,20 +39,23 @@ class Cli
   end
 
   def select_market_input
-    input
-    if @user_input == "exit"
-      goodbye
-    elsif @user_input == "sign out"
-      call
-    end
+    market_input
+    call if @market_input == "sign out"
     invalid_city?
   end
 
   def select_property
-    @scraper.scrape_listings(@user_input)
+    @scraper.scrape_listings(@market_input)
     display_properties
     prompt_user_address
+    select_property_input
+    display_details
+  end
+
+  def select_property_input
     input
+    start if @user_input == "back"
+    invalid_address?
   end
 
   def display_details
@@ -65,19 +65,12 @@ class Cli
     back_or_exit
     input
     until_valid_input("exit", "back")
+    select_property if @user_input == "back"
   end
 
-  # def continue
-  #   input
-  #   unless user_input_exit?
-  #     return if invalid_city?
-
-  #     @scraper.scrape_listings(@user_input)
-  #     display_properties
-  #     prompt_user_address
-  #   end
-  #   start(false) if user_input_back?
-  # end
+  def find_or_create_cities
+    @scraper.scrape_cities if City.all.empty?
+  end
 
   def find_or_create_details(address)
     property = Scraper.find_property(address)
@@ -108,7 +101,7 @@ class Cli
 end
 
 def invalid_city?
-  return unless Scraper.find_city(@user_input).nil?
+  return unless Scraper.find_city(@market_input).nil?
 
   invalid_selection
   select_market_input
@@ -119,6 +112,6 @@ def invalid_address?
   return unless Scraper.find_property(@user_input).nil?
 
   invalid_selection
-  continue
+  select_property_input
   true
 end
