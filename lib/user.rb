@@ -1,5 +1,5 @@
 class User
-  attr_accessor :name, :username, :password, :birthday
+  attr_accessor :name, :username, :password, :market, :birthday
 
   @@all = []
 

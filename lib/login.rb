@@ -3,7 +3,7 @@ module Login
 
   def load_users
     User.new(name: "Steve", username: "stephenmckeon", password: "love2code",
-             market: "Mantua Township", birthday: "05/21/2020")
+             market: "Pitman", birthday: "05/26/2020")
   end
 
   def login

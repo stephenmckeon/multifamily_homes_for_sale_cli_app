@@ -8,19 +8,16 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
+  # "loading homes in Pitman..."" when you pick a city
+  # 225 E Holly Ave p/sqft = active
   # class << Self
   # refactor self.scrape_home_facts(address)
-  # profile knows birthday
   # puts can be replaced by \n \ ... ask andrew or pat
-  ## fix welcome to welcome to Glouster County Cli Prop search
-  ## display random ascii art when looking at home details
   ## profile knows your default seach area
   ## guest profile makes you select an area to search
   # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
-  # when a city is seclected the properties that are created belong to a city
-  # When a city is called, Cli checks to see if that city already has properties, if it does, then do not create more props
-  # if not, make props that belong to city (step1)
+  # if default area != empty, scrape and display based on default; if it is proceed like normal
 
   include Message
   include Input
@@ -30,6 +27,7 @@ class Cli
     @scraper = Scraper.new
     load_users
     login
+    @@count = 1
     welcome_message
     start
   end
@@ -41,6 +39,7 @@ class Cli
   end
 
   def select_market
+    default_city?
     display_market
     prompt_user_city
     select_market_input
@@ -105,26 +104,34 @@ class Cli
     property = Scraper.find_property(address)
     price_insights_info(property)
   end
-end
 
-def invalid_city?
-  return unless Scraper.find_city(@market_input).nil?
+  def invalid_city?
+    return unless Scraper.find_city(@market_input).nil?
 
-  invalid_selection
-  select_market_input
-  true
-end
+    invalid_selection
+    select_market_input
+    true
+  end
 
-def invalid_address?
-  return unless Scraper.find_property(@property_input).nil?
+  def invalid_address?
+    return unless Scraper.find_property(@property_input).nil?
 
-  invalid_selection
-  select_property_input
-  true
-end
+    invalid_selection
+    select_property_input
+    true
+  end
 
-def open_property
-  property = Scraper.find_property(@property_input)
-  Launchy.open(property.link)
-  back_open_exit_prompt
+  def open_property
+    property = Scraper.find_property(@property_input)
+    Launchy.open(property.link)
+    back_open_exit_prompt
+  end
+
+  def default_city?(to_show = true)
+    return if @user.market == "" || @@count > 1
+
+    @@count += 1
+    @market_input = @user.market
+    select_property
+  end
 end

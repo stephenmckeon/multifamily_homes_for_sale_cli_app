@@ -1,6 +1,5 @@
 module Message
   @@colorizer = Lolize::Colorizer.new
-  # @@colorizer.write
 
   def back_exit_or_open_message
     puts
