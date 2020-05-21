@@ -17,13 +17,24 @@ module Input
 
   def market_input
     @market_input = gets.strip
-    goodbye if @user_input == "exit"
+    goodbye if @market_input == "exit"
   end
 
   def property_input
     @property_input = gets.strip
     goodbye if @property_input == "exit"
     start if @property_input == "back"
+  end
+
+  def select_market_input
+    market_input
+    call if @market_input == "sign out"
+    invalid_city?
+  end
+
+  def select_property_input
+    property_input
+    invalid_address?
   end
 
   def user_input_exit?

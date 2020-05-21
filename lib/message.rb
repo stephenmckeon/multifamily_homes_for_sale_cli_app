@@ -33,6 +33,8 @@ module Message
   end
 
   def display_properties(city)
+    listings_in_city?(city)
+    puts
     city.properties.each do |home|
       puts "‣ " + home.address.underline.yellow
       puts "  ➼ #{home.price}".green
@@ -42,6 +44,19 @@ module Message
       puts
       sleep 0.2
     end
+  end
+
+  def listings_in_city?(city)
+    return unless city.properties.empty?
+
+    puts
+    puts "Sorry, there are currently no listings in ".red \
+          + city.name.yellow + "!"
+    puts
+    sleep 1
+    puts "Returning to city selection...."
+    sleep 2
+    select_market
   end
 
   def goodbye
@@ -107,6 +122,7 @@ module Message
   def prompt_user_city
     puts "Please select a city to search by typing it's name."
     puts "You can also type 'sign out' to sign out, or type 'exit' to exit."
+    puts
   end
 
   def prompt_user_address
@@ -132,6 +148,6 @@ module Message
     @@colorizer.write @user.name
     print "! Welcome to the CLI property search. "
     puts
-    puts "Loading cities in Gloucester County..."
+    puts "Loading cities in and around Gloucester County..."
   end
 end

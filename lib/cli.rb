@@ -8,10 +8,9 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
-  #X be more specific on scraping for details
+  # be more specific on scraping for details
   # 871 Corkery Ln est list price comes back as 'Active'
   # no listings in blackwood, let user know!
-  # add open link feature
   # profile knows birthday
   # puts can be replaced by \n \ ... ask andrew or pat
   ## fix welcome to welcome to Glouster County Cli Prop search
@@ -50,12 +49,6 @@ class Cli
     select_market_input
   end
 
-  def select_market_input
-    market_input
-    call if @market_input == "sign out"
-    invalid_city?
-  end
-
   def select_property
     find_or_scrape_properties(@market_input)
     city = Scraper.find_city(@market_input)
@@ -65,20 +58,15 @@ class Cli
     display_details
   end
 
-  def select_property_input
-    property_input
-    invalid_address?
-  end
-
   def display_details
     find_or_create_details(@property_input)
     details_display(@property_input)
     price_insights(@property_input)
+    back_exit_or_open_message
     back_open_exit_prompt
   end
 
   def back_open_exit_prompt
-    back_exit_or_open_message
     input
     until_valid_input("exit", "back", "open")
     open_property if @user_input == "open"
