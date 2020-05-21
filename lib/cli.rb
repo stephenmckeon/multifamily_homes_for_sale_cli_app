@@ -38,12 +38,17 @@ class Cli
   def select_market
     display_market
     prompt_user_city
+    select_market_input
+  end
+
+  def select_market_input
     input
     if @user_input == "exit"
       goodbye
     elsif @user_input == "sign out"
       call
     end
+    invalid_city?
   end
 
   def select_property
@@ -106,7 +111,7 @@ def invalid_city?
   return unless Scraper.find_city(@user_input).nil?
 
   invalid_selection
-  continue
+  select_market_input
   true
 end
 
