@@ -97,10 +97,10 @@ module Message
 
   def price_insights_info(property)
     puts
-    puts "List Price:        ".bold + property.price + \
-         "     Est. Mo. Payments:  ".bold + property.est_mo_payment
-    puts "Redfin Est Price:  ".bold + property.est_price + \
-         "     Price/Sqft:         ".bold + property.price_sqft
+    puts "List Price:        ".light_black.bold + property.price + \
+         "     Est. Mo. Payments:  ".bold.light_black + property.est_mo_payment
+    puts "Redfin Est Price:  ".bold.light_black + property.est_price + \
+         "     Price/Sqft:         ".bold.light_black + property.price_sqft
   end
 
   def prompt_user_city

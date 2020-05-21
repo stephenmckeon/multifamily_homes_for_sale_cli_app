@@ -43,15 +43,16 @@ class Scraper
   def self.scrape_home_facts(address)
     Scraper.scrape_prep(address)
     lot_size_check
+    year_built_check
     @property.add_home_facts(
       description: @link.css("#marketing-remarks-scroll").text,
-      year_built: @home_details[6].text,
+      year_built: @year_built,
       lot_size: @lot_size,
       time_on_market: @home_details[5].text
     )
   end
 
-  def self.scrape_price_insights(address)
+  def self.scrape_price_insights
     @property.add_price_insights(
       est_price: @home_details[2].text,
       est_mo_payment: @home_details[1].text,
@@ -70,6 +71,16 @@ class Scraper
       item.text.include?("Sq. Ft.") || item.text.include?("Acre")
     end
     @lot_size = lot_size.nil? ? "-- " : lot_size
+  end
+
+  def self.year_built_check
+    year_built = @home_details.find do |item|
+      text = item.text
+      (text.start_with?("18") && text.length == 4) ||
+        (text.start_with?("19") && text.length == 4) ||
+        (text.start_with?("20") && text.length == 4)
+    end
+    @year_built = year_built.nil? ? "-- " : year_built
   end
 
   def self.home_info_link(address)

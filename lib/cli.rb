@@ -9,8 +9,7 @@ require_relative "./login"
 class Cli
   # --IDEAS--
   # be more specific on scraping for details
-  # add open link featur
-  # light black on prop details
+  # add open link feature
   # profile knows birthday
   # puts can be replaced by \n \ ... ask andrew or pat
   ## fix welcome to welcome to Glouster County Cli Prop search
@@ -95,7 +94,7 @@ class Cli
     return unless property.description.nil?
 
     Scraper.scrape_home_facts(@user_input)
-    Scraper.scrape_price_insights(@user_input)
+    Scraper.scrape_price_insights
   end
 
   def details_display(address)
