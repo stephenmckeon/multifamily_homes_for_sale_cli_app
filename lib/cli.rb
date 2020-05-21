@@ -9,15 +9,17 @@ require_relative "./login"
 class Cli
   # --IDEAS--
   # be more specific on scraping for details
+  # add open link featur
   # light black on prop details
   # profile knows birthday
   # puts can be replaced by \n \ ... ask andrew or pat
+  ## fix welcome to welcome to Glouster County Cli Prop search
   ## display random ascii art when looking at home details
   ## profile knows your default seach area
   ## guest profile makes you select an area to search
   ## choose multifam or single fam ?
 
-  # Where should each method really? find_city in Scraper??? NOOOO!!!
+  # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
   # when a city is seclected the properties that are created belong to a city
   # When a city is called, Cli checks to see if that city already has properties, if it does, then do not create more props

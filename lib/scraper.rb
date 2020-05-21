@@ -5,8 +5,8 @@
 class Scraper
   attr_accessor :listings_url
 
-  # BASE_URL = "https://www.redfin.com/city/19265/NJ/Vineland/filter/property-type=multifamily"
-  BASE_URL = "https://www.redfin.com/county/1898/NJ/Gloucester-County"
+  BASE_URL = "https://www.redfin.com/county/1898/" \
+             "NJ/Gloucester-County".freeze
 
   def scrape_cities
     city_url.each do |city|
@@ -41,34 +41,35 @@ class Scraper
   end
 
   def self.scrape_home_facts(address)
-    prop = find_property(address)
-    link = home_info_link(address)
-    home_details = link.css(".keyDetailsList span.content")
-    lot_size = lot_size_check(home_details)
-    prop.add_home_facts(
-      description: link.css("#marketing-remarks-scroll").text,
-      year_built: home_details[6].text,
-      lot_size: lot_size,
-      time_on_market: home_details[5].text
+    Scraper.scrape_prep(address)
+    lot_size_check
+    @property.add_home_facts(
+      description: @link.css("#marketing-remarks-scroll").text,
+      year_built: @home_details[6].text,
+      lot_size: @lot_size,
+      time_on_market: @home_details[5].text
     )
   end
 
   def self.scrape_price_insights(address)
-    prop = find_property(address)
-    link = home_info_link(address)
-    home_details = link.css(".keyDetailsList span.content")
-    prop.add_price_insights(
-      est_price: home_details[2].text,
-      est_mo_payment: home_details[1].text,
-      price_sqft: home_details[3].text
+    @property.add_price_insights(
+      est_price: @home_details[2].text,
+      est_mo_payment: @home_details[1].text,
+      price_sqft: @home_details[3].text
     )
   end
 
-  def self.lot_size_check(home_details)
-    lot_size = home_details.find do |item|
+  def self.scrape_prep(address)
+    @property = find_property(address)
+    @link = home_info_link(address)
+    @home_details = @link.css(".keyDetailsList span.content")
+  end
+
+  def self.lot_size_check
+    lot_size = @home_details.find do |item|
       item.text.include?("Sq. Ft.") || item.text.include?("Acre")
     end
-    lot_size.nil? ? "-- " : lot_size
+    @lot_size = lot_size.nil? ? "-- " : lot_size
   end
 
   def self.home_info_link(address)
