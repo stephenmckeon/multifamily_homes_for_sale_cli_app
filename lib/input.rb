@@ -20,6 +20,12 @@ module Input
     goodbye if @user_input == "exit"
   end
 
+  def property_input
+    @property_input = gets.strip
+    goodbye if @property_input == "exit"
+    start if @property_input == "back"
+  end
+
   def user_input_exit?
     @user_input.casecmp("exit").zero?
   end

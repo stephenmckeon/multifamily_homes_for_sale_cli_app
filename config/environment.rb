@@ -1,4 +1,5 @@
 require "httparty"
+require "launchy"
 require "lolize"
 require "nokogiri"
 require "pry"

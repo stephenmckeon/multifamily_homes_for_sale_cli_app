@@ -8,7 +8,9 @@ require_relative "./login"
 
 class Cli
   # --IDEAS--
-  # be more specific on scraping for details
+  #X be more specific on scraping for details
+  # 871 Corkery Ln est list price comes back as 'Active'
+  # no listings in blackwood, let user know!
   # add open link feature
   # profile knows birthday
   # puts can be replaced by \n \ ... ask andrew or pat
@@ -56,7 +58,6 @@ class Cli
 
   def select_property
     find_or_scrape_properties(@market_input)
-    # @scraper.scrape_listings(@market_input) # here is where Prop are made; turn this into find or create props
     city = Scraper.find_city(@market_input)
     display_properties(city)
     prompt_user_address
@@ -65,18 +66,22 @@ class Cli
   end
 
   def select_property_input
-    input
-    start if @user_input == "back"
+    property_input
     invalid_address?
   end
 
   def display_details
-    find_or_create_details(@user_input)
-    details_display(@user_input)
-    price_insights(@user_input)
-    back_or_exit
+    find_or_create_details(@property_input)
+    details_display(@property_input)
+    price_insights(@property_input)
+    back_open_exit_prompt
+  end
+
+  def back_open_exit_prompt
+    back_exit_or_open_message
     input
-    until_valid_input("exit", "back")
+    until_valid_input("exit", "back", "open")
+    open_property if @user_input == "open"
     select_property if @user_input == "back"
   end
 
@@ -93,7 +98,7 @@ class Cli
     property = Scraper.find_property(address)
     return unless property.description.nil?
 
-    Scraper.scrape_home_facts(@user_input)
+    Scraper.scrape_home_facts(@property_input)
     Scraper.scrape_price_insights
   end
 
@@ -126,9 +131,15 @@ def invalid_city?
 end
 
 def invalid_address?
-  return unless Scraper.find_property(@user_input).nil?
+  return unless Scraper.find_property(@property_input).nil?
 
   invalid_selection
   select_property_input
   true
+end
+
+def open_property
+  property = Scraper.find_property(@property_input)
+  Launchy.open(property.link)
+  back_open_exit_prompt
 end

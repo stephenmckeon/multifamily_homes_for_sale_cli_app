@@ -2,10 +2,11 @@ module Message
   @@colorizer = Lolize::Colorizer.new
   # @@colorizer.write
 
-  def back_or_exit
+  def back_exit_or_open_message
     puts
-    puts "Type 'back' to go " + "back ".white.bold + \
-         "to the listings page or type 'exit' to " + "exit".red + "."
+    puts "Type 'open' to " + "open ".white.bold + "this listing in browser, "
+    puts "type 'back' to go " + "back ".cyan + \
+         "to the listings page, or type 'exit' to " + "exit".red + "."
     puts
   end
 
@@ -111,7 +112,7 @@ module Message
   def prompt_user_address
     puts "To see more " + "information ".blue + "on a property, type its " + \
          "address ".yellow + "and press enter."
-    puts "To go back to city selection, type 'back'. To " + \
+    puts "To go " + "back ".cyan + "to city selection, type 'back'. To " + \
          "exit".red + ", " + "type " + "'exit'."
     puts
   end
