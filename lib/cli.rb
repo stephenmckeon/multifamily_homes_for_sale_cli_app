@@ -127,7 +127,7 @@ class Cli
     back_open_exit_prompt
   end
 
-  def default_city?(to_show = true)
+  def default_city?
     return if @user.market == "" || @@count > 1
 
     @@count += 1
