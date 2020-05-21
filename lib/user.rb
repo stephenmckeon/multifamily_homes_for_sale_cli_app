@@ -1,13 +1,14 @@
 class User
-  attr_accessor :name, :username, :password
+  attr_accessor :name, :username, :password, :birthday
 
   @@all = []
 
-  def initialize(name:, username:, password:, market:)
+  def initialize(name:, username:, password:, market:, birthday:)
     @name = name
     @username = username
     @password = password
     @market = market
+    @birthday = birthday
     @@all << self
   end
 

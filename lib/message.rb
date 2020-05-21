@@ -82,36 +82,6 @@ module Message
     puts
   end
 
-  def login_fail
-    puts
-    puts "Incorrect username or password, please try again.".red
-    puts
-    sleep(2)
-    login
-  end
-
-  def login_message
-    puts
-    puts "Welcome to the CLI property search!".blue
-    puts "To continue, type 'login' to login or ".blue + \
-         "type 'guest' to continue as guest user.".blue
-    puts
-  end
-
-  def login_success
-    puts
-    puts "Login Successful!".blue
-    sleep 0.7
-    puts
-    print "Loading account".blue
-    sleep 0.5
-    3.times do
-      print ".".blue
-      sleep 0.7
-    end
-    puts
-  end
-
   def price_insights_info(property)
     puts
     puts "List Price:        ".light_black.bold + property.price + \
@@ -147,7 +117,7 @@ module Message
     puts
     print "Hello, "
     @@colorizer.write @user.name
-    print "! Welcome to the CLI property search. "
+    print "! Welcome to the CLI multi-family property search. "
     puts
     puts "Loading cities in and around Gloucester County..."
   end

@@ -16,8 +16,6 @@ class Cli
   ## display random ascii art when looking at home details
   ## profile knows your default seach area
   ## guest profile makes you select an area to search
-  ## choose multifam or single fam ?
-
   # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
   # when a city is seclected the properties that are created belong to a city
