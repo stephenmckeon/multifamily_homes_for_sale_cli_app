@@ -7,14 +7,13 @@ require_relative "./input"
 require_relative "./login"
 
 class Cli
-  # --IDEAS--
+  # --IDEAS-=
+  # build README
   # "loading homes in Pitman..."" when you pick a city
-  # 225 E Holly Ave p/sqft = active
+  # 225 E Holly Ave p/sqft = active... check to see if .text.start_with?("$") else = "-- "
   # class << Self
   # refactor self.scrape_home_facts(address)
   # puts can be replaced by \n \ ... ask andrew or pat
-  ## profile knows your default seach area
-  ## guest profile makes you select an area to search
   # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
   # if default area != empty, scrape and display based on default; if it is proceed like normal
@@ -46,8 +45,9 @@ class Cli
   end
 
   def select_property
-    find_or_scrape_properties(@market_input)
     city = Scraper.find_city(@market_input)
+    loading_city_message(city)
+    find_or_scrape_properties(@market_input)
     display_properties(city)
     prompt_user_address
     select_property_input
