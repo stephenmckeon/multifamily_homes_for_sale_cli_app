@@ -1,3 +1,4 @@
+require_relative "./display.rb"
 require_relative "./input.rb"
 require_relative "./login.rb"
 require_relative "./message.rb"
@@ -9,6 +10,7 @@ require_relative "./message.rb"
 # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
 class Cli
+  include Display
   include Input
   include Login
   include Message
