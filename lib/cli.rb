@@ -6,8 +6,6 @@ require_relative "./message.rb"
 # --IDEAS--
 # build README
 # class << Self
-# puts can be replaced by \n \ ... ask andrew or pat
-# Where should each method really be? find_city in Scraper??? NOOOO!!!
 
 class Cli
   include Display
@@ -115,5 +113,6 @@ class Cli
 
     no_listings_message(city)
     select_market
+    puts
   end
 end

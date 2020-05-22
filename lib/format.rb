@@ -7,6 +7,10 @@ module Format
     string.light_black.on_green
   end
 
+  def underline_yellow(string)
+    string.yellow.under_line
+  end
+
   def white_on_red(string)
     string.white.on_red
   end
