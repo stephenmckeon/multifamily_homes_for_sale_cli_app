@@ -87,10 +87,10 @@ class Scraper
 
   def self.est_price_check
     est_price = nil
-    if @home_details[2].text.length.between?(7, 8)
+    if @home_details[2].text.length.between?(7, 11)
       est_price = @home_details[2].text
     end
-    @est_price = est_price.nil? ? "--      " : est_price
+    @est_price = est_price.nil? ? "--        " : est_price
   end
 
   def self.est_mo_payment_check

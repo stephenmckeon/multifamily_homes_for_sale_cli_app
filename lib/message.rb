@@ -16,6 +16,9 @@ module Message
     puts
     puts property.description.blue
     puts
+    puts "Beds:       ".light_black.bold + property.beds + \
+         "   Baths:    ".light_black.bold + property.baths + \
+         "           Sq. Ft.:        ".light_black.bold + property.sqft
     puts "Year Built: ".light_black.bold + property.year_built + \
          "     Lot Size: ".light_black.bold + property.lot_size + \
          "     Time on Market: ".light_black.bold + property.time_on_market
@@ -34,12 +37,12 @@ module Message
   def display_properties(city)
     listings_in_city?(city)
     puts
-    city.properties.each do |home|
-      puts "‣ " + home.address.underline.yellow
-      puts "  ➼ #{home.price}".green
-      puts "  ➼ #{home.beds}"
-      puts "  ➼ #{home.baths}"
-      puts "  ➼ #{home.sqft}"
+    city.properties.each do |property|
+      puts "‣ " + property.address.underline.yellow
+      puts "  ➼ #{property.price}".green
+      puts "  ➼ #{property.beds}"
+      puts "  ➼ #{property.baths}"
+      puts "  ➼ #{property.sqft}"
       puts
       sleep 0.2
     end
@@ -95,8 +98,9 @@ module Message
   end
 
   def prompt_user_city
-    puts "Please select a city to search by typing it's name."
-    puts "You can also type 'sign out' to sign out, or type 'exit' to exit."
+    puts "Please select a " + "city ".yellow + "to search by typing it's name."
+    puts "You can also " + "sign out ".cyan + "by typing 'sign out'" + \
+         ", or "+ "exit ".red + "by typing 'exit'."
     puts
   end
 
@@ -121,8 +125,10 @@ module Message
     puts
     print "Hello, "
     @@colorizer.write @user.name
-    print "! Welcome to the CLI multi-family property search. "
+    print "! "
+    @@colorizer.write "Welcome to the CLI multi-family property search"
+    print "!"
     puts
-    puts "Loading cities in and around Gloucester County..."
+    puts "Loading cities in and around " + "Gloucester County".yellow + "..."
   end
 end

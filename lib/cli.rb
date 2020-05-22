@@ -3,7 +3,8 @@ require_relative "./input"
 require_relative "./login"
 
 class Cli
-  # --IDEAS-=
+  # --IDEAS--
+  # add price, bds, bas, sq ft to description
   # build README
   # class << Self
   # refactor self.scrape_home_facts(address)
