@@ -1,12 +1,13 @@
 class Property
-  attr_accessor :address, :price, :beds, :baths, :sqft, :link, :description,
-                :year_built, :lot_size, :time_on_market, :est_price,
-                :est_mo_payment, :price_sqft, :ascii_art
+  attr_accessor :address, :city, :price, :beds, :baths, :sqft, :link,
+                :description, :year_built, :lot_size, :time_on_market,
+                :est_price, :est_mo_payment, :price_sqft, :ascii_art
 
   @@all = []
 
-  def initialize(address:, price:, beds:, baths:, sqft:, link:)
+  def initialize(address:, city:, price:, beds:, baths:, sqft:, link:)
     @address = address.split(", ")[0]
+    @city = city
     @price = price
     @beds = beds
     @baths = baths

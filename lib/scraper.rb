@@ -24,13 +24,14 @@ class Scraper
 
   def self.scrape_listings(city)
     homecards(city).each do |home|
-      city.properties << Property.new(
+      Property.new(
         address: home.css(".addressDisplay").text,
+        city: city,
         price: home.css(".homecardV2Price").text,
         beds: home.css(".stats")[0].text,
         baths: home.css(".stats")[1].text,
         sqft: home.css(".stats")[2].text,
-        link: home.css(".scrollable a").attribute("href").value
+        link: home.css(".scrollable a").attribute("href").value,
       )
     end
   end

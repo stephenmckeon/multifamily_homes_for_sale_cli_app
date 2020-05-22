@@ -7,7 +7,8 @@ require_relative "./Modules/message.rb"
 # build README
 # class << Self
 # reader/writer
-# Properties should be ssot
+# Would you like to see price insights for guest?
+# mask password?
 
 class Cli
   include Display
@@ -48,7 +49,7 @@ class Cli
     end
   end
 
-  def display_property_and_details
+  def display_property_and_details(city)
     display_properties(city)
     user_address_message
     select_property_input
