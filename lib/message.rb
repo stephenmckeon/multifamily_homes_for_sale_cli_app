@@ -3,7 +3,7 @@ module Message
 
   def back_exit_or_open_message
     puts
-    puts "Type 'open' to " + "open ".white.bold + "this listing in browser, " + \
+    puts "Type 'open' to " + "open ".white.bold + "this listing in browser, " \
          "type 'back' to go " + "back ".cyan + \
          "to the listings page, or type 'exit' to " + "exit".red + "."
     puts

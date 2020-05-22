@@ -21,8 +21,6 @@ module Login
     @password = gets.chomp
     if User.verify_account(@username, @password)
       login_success
-      @user = User.find_user_by_username(@username)
-      check_birthday
     else
       login_fail
     end
@@ -50,17 +48,27 @@ module Login
   end
 
   def login_success
+    login_success_message
+    @user = User.find_user_by_username(@username)
+    check_birthday
+  end
+
+  def login_success_message
     puts
     puts "Login Successful!".blue
     sleep 0.7
     puts
     print "Loading account".blue
     sleep 0.5
+    print_three_dots
+    puts
+  end
+
+  def print_three_dots
     3.times do
       print ".".blue
       sleep 0.7
     end
-    puts
   end
 
   def check_birthday

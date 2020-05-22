@@ -1,5 +1,4 @@
 module Input
-
   def input
     @user_input = gets.strip
     goodbye if @user_input == "exit"

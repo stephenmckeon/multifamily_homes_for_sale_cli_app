@@ -1,12 +1,12 @@
-require_relative "./message"
-require_relative "./input"
-require_relative "./login"
+require_relative "./message.rb"
+require_relative "./input.rb"
+require_relative "./login.rb"
 
- # --IDEAS--
-  # build README
-  # class << Self
-  # puts can be replaced by \n \ ... ask andrew or pat
-  # Where should each method really be? find_city in Scraper??? NOOOO!!!
+# --IDEAS--
+# build README
+# class << Self
+# puts can be replaced by \n \ ... ask andrew or pat
+# Where should each method really be? find_city in Scraper??? NOOOO!!!
 
 class Cli
   include Message
