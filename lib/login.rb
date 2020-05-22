@@ -3,7 +3,7 @@ module Login
 
   def load_users
     User.new(name: "Steve", username: "stephenmckeon", password: "love2code",
-             market: "Pitman", birthday: "05/26/2020")
+             market: "Pitman", birthday: "05/26")
   end
 
   def login
@@ -64,7 +64,7 @@ module Login
   end
 
   def check_birthday
-    return unless Time.now.strftime("%m/%d/%Y") == @user.birthday
+    return unless Time.now.strftime("%m/%d") == @user.birthday
 
     @@colorizer.write File.open("./lib/Ascii Art/AsciiArtBday").read
   end

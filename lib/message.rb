@@ -24,7 +24,6 @@ module Message
 
   def display_market
     puts
-    puts
     City.all.each do |city|
       puts "‣ " + city.name.light_yellow
       sleep 0.2

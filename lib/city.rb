@@ -14,4 +14,8 @@ class City
   def self.all
     @@all
   end
+
+  def self.find_city(name)
+    all.find { |city| city.name == name }
+  end
 end

@@ -1,7 +1,3 @@
-# This is responsible for scraping my webpage(s)
-# This file will use nokogiri, i.e. scrape
-# This file will never use 'puts'
-
 class Scraper
   attr_accessor :listings_url
 
@@ -54,7 +50,7 @@ class Scraper
   end
 
   def self.scrape_prep(address)
-    @property = find_property(address)
+    @property = Property.find_property(address)
     @link = home_info_link(address)
     @home_details = @link.css(".keyDetailsList span.content")
     lot_size_check
@@ -107,21 +103,17 @@ class Scraper
   end
 
   def self.price_sqft_check
-    price_sqft = @property.price.delete("$,").to_i \
-               / @property.sqft.delete(",Sq.Ft. ").to_i
-    @price_sqft = "$" + price_sqft.to_s
+    if @property.sqft == "\u2014Sq. Ft."
+      @price_sqft = "-- "
+    else
+      price_sqft = @property.price.delete("$,").to_i \
+                 / @property.sqft.delete(",Sq.Ft. ").to_i
+      @price_sqft = "$" + price_sqft.to_s
+    end
   end
 
   def self.home_info_link(address)
-    home = find_property(address)
+    home = Property.find_property(address)
     Nokogiri::HTML(HTTParty.get(home.link).body)
-  end
-
-  def self.find_city(name)
-    City.all.find { |city| city.name == name }
-  end
-
-  def self.find_property(address)
-    Property.all.find { |home| home.address == address }
   end
 end

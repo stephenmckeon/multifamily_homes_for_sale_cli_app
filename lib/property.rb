@@ -35,4 +35,8 @@ class Property
   def self.all
     @@all
   end
+
+  def self.find_property(address)
+    Property.all.find { |home| home.address == address }
+  end
 end
