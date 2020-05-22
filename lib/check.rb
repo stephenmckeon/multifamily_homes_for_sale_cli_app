@@ -1,5 +1,5 @@
 module Check
-  def year_built_checkru
+  def year_built_check
     year_built = @home_details.find do |item|
       text = item.text
       (text.start_with?("18") && text.length == 4) ||

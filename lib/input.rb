@@ -1,17 +1,17 @@
 module Input
   def input
     @user_input = gets.strip
-    goodbye if @user_input == "exit"
+    goodbye_message if @user_input == "exit"
   end
 
   def market_input
     @market_input = gets.strip
-    goodbye if @market_input == "exit"
+    goodbye_message if @market_input == "exit"
   end
 
   def property_input
     @property_input = gets.strip
-    goodbye if @property_input == "exit"
+    goodbye_message if @property_input == "exit"
     start if @property_input == "back"
   end
 
@@ -28,7 +28,7 @@ module Input
 
   def until_valid_input(*spec_input)
     until valid_input?(*spec_input)
-      invalid_input
+      invalid_input_message
       input
     end
   end

@@ -1,6 +1,6 @@
-require_relative "./message.rb"
 require_relative "./input.rb"
 require_relative "./login.rb"
+require_relative "./message.rb"
 
 # --IDEAS--
 # build README
@@ -9,9 +9,9 @@ require_relative "./login.rb"
 # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
 class Cli
-  include Message
   include Input
   include Login
+  include Message
 
   def call
     load_users
@@ -30,7 +30,7 @@ class Cli
   def select_market
     default_city?
     display_market
-    prompt_user_city
+    user_city_message
     select_market_input
   end
 
@@ -39,7 +39,7 @@ class Cli
     loading_city_message(city)
     Property.find_or_scrape_properties(@market_input)
     display_properties(city)
-    prompt_user_address
+    user_address_message
     select_property_input
     show_details
   end
@@ -65,7 +65,7 @@ class Cli
   end
 
   def price_insights(address)
-    see_price_insights?(@user_input)
+    see_price_insights_message(@user_input)
     input
     until_valid_input("yes", "no")
     return if @user_input == "no"
@@ -75,13 +75,13 @@ class Cli
 
   def price_insights_display(address)
     property = Property.find_property(address)
-    price_insights_info(property)
+    display_price_insights_info(property)
   end
 
   def invalid_city?
     return unless City.find_city(@market_input).nil?
 
-    invalid_selection
+    invalid_selection_message
     select_market_input
     true
   end
@@ -89,7 +89,7 @@ class Cli
   def invalid_address?
     return unless Property.find_property(@property_input).nil?
 
-    invalid_selection
+    invalid_selection_message
     select_property_input
     true
   end
@@ -106,5 +106,12 @@ class Cli
     @@count += 1
     @market_input = @user.market
     select_property
+  end
+
+  def listings_in_city?(city)
+    return unless city.properties.empty?
+
+    no_listings_message(city)
+    select_market
   end
 end
