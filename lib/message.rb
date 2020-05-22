@@ -18,7 +18,7 @@ module Message
     puts
     puts "Beds:       ".light_black.bold + property.beds + \
          "   Baths:    ".light_black.bold + property.baths + \
-         "           Sq. Ft.:        ".light_black.bold + property.sqft
+         "         Sq. Ft.:        ".light_black.bold + property.sqft
     puts "Year Built: ".light_black.bold + property.year_built + \
          "     Lot Size: ".light_black.bold + property.lot_size + \
          "     Time on Market: ".light_black.bold + property.time_on_market

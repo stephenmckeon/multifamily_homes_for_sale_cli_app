@@ -4,7 +4,7 @@ class Scraper
   BASE_URL = "https://www.redfin.com/county/1898/" \
              "NJ/Gloucester-County".freeze
 
-  def scrape_cities
+  def self.scrape_cities
     city_url.each do |city|
       City.new(
         name: city.text,
@@ -13,12 +13,12 @@ class Scraper
     end
   end
 
-  def city_url
+  def self.city_url
     html = Nokogiri::HTML(HTTParty.get(BASE_URL).body)
     html.css(".ContextualInterlinksTable")[1].css("table a")
   end
 
-  def scrape_listings(city)
+  def self.scrape_listings(city)
     homecards(city).each do |home|
       city.properties << Property.new(
         address: home.css(".addressDisplay").text,
@@ -31,7 +31,7 @@ class Scraper
     end
   end
 
-  def homecards(city)
+  def self.homecards(city)
     html = Nokogiri::HTML(HTTParty.get(city.link).body)
     html.css(".HomeCardContainer")
   end
@@ -59,6 +59,11 @@ class Scraper
     est_price_check
     est_mo_payment_check
     price_sqft_check
+  end
+
+  def self.home_info_link(address)
+    home = Property.find_property(address)
+    Nokogiri::HTML(HTTParty.get(home.link).body)
   end
 
   def self.year_built_check
@@ -110,10 +115,5 @@ class Scraper
                  / @property.sqft.delete(",Sq.Ft. ").to_i
       @price_sqft = "$" + price_sqft.to_s
     end
-  end
-
-  def self.home_info_link(address)
-    home = Property.find_property(address)
-    Nokogiri::HTML(HTTParty.get(home.link).body)
   end
 end

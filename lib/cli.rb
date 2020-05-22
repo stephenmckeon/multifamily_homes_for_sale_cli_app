@@ -2,21 +2,18 @@ require_relative "./message"
 require_relative "./input"
 require_relative "./login"
 
-class Cli
-  # --IDEAS--
-  # add price, bds, bas, sq ft to description
+ # --IDEAS--
   # build README
   # class << Self
-  # refactor self.scrape_home_facts(address)
   # puts can be replaced by \n \ ... ask andrew or pat
   # Where should each method really be? find_city in Scraper??? NOOOO!!!
 
+class Cli
   include Message
   include Input
   include Login
 
   def call
-    @scraper = Scraper.new
     load_users
     login
     @@count = 1
@@ -25,7 +22,7 @@ class Cli
   end
 
   def start
-    find_or_create_cities
+    City.find_or_create_cities
     select_market
     select_property
   end
@@ -40,15 +37,15 @@ class Cli
   def select_property
     city = City.find_city(@market_input)
     loading_city_message(city)
-    find_or_scrape_properties(@market_input)
+    Property.find_or_scrape_properties(@market_input)
     display_properties(city)
     prompt_user_address
     select_property_input
-    display_details
+    show_details
   end
 
-  def display_details
-    find_or_create_details(@property_input)
+  def show_details
+    Property.find_or_create_details(@property_input)
     details_display(@property_input)
     price_insights(@property_input)
     back_exit_or_open_message
@@ -60,22 +57,6 @@ class Cli
     until_valid_input("exit", "back", "open")
     open_property if @user_input == "open"
     select_property if @user_input == "back"
-  end
-
-  def find_or_create_cities
-    @scraper.scrape_cities if City.all.empty?
-  end
-
-  def find_or_scrape_properties(city_name)
-    city = City.find_city(city_name)
-    @scraper.scrape_listings(city) if city.properties.empty?
-  end
-
-  def find_or_create_details(address)
-    property = Property.find_property(address)
-    return unless property.description.nil?
-
-    Scraper.scrape_home_details(@property_input)
   end
 
   def details_display(address)

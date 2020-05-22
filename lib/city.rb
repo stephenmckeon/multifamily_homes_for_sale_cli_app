@@ -18,4 +18,8 @@ class City
   def self.find_city(name)
     all.find { |city| city.name == name }
   end
+
+  def self.find_or_create_cities
+    Scraper.scrape_cities if City.all.empty?
+  end
 end
