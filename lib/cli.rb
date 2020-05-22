@@ -6,8 +6,8 @@ require_relative "./Modules/message.rb"
 # --IDEAS--
 # build README
 # class << Self
-# big when Blackwood then selecting a new city
 # reader/writer
+# Properties should be ssot
 
 class Cli
   include Display
@@ -44,11 +44,15 @@ class Cli
       no_listings_message(city)
       start
     else
-      display_properties(city)
-      user_address_message
-      select_property_input
-      show_details
+      display_property_and_details(city)
     end
+  end
+
+  def display_property_and_details
+    display_properties(city)
+    user_address_message
+    select_property_input
+    show_details
   end
 
   def show_details
