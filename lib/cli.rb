@@ -8,6 +8,7 @@ require_relative "./login"
 
 class Cli
   # --IDEAS-=
+  # chang bday to not check year
   # build README
   # "loading homes in Pitman..."" when you pick a city
   # 225 E Holly Ave p/sqft = active... check to see if .text.start_with?("$") else = "-- "
@@ -82,8 +83,7 @@ class Cli
     property = Scraper.find_property(address)
     return unless property.description.nil?
 
-    Scraper.scrape_home_facts(@property_input)
-    Scraper.scrape_price_insights
+    Scraper.scrape_home_details(@property_input)
   end
 
   def details_display(address)

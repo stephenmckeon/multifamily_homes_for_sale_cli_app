@@ -15,11 +15,6 @@ module Input
     goodbye if @user_input == "exit"
   end
 
-  def loading_city_message(city)
-    puts "Loading properties in #{city.name}..."
-    sleep 1
-  end
-
   def market_input
     @market_input = gets.strip
     goodbye if @market_input == "exit"

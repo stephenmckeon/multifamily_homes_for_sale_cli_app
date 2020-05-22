@@ -46,6 +46,13 @@ module Message
     end
   end
 
+  def goodbye
+    puts
+    @@colorizer.write "Happy house hunting. Goodbye!"
+    puts
+    exit
+  end
+
   def listings_in_city?(city)
     return unless city.properties.empty?
 
@@ -59,11 +66,9 @@ module Message
     select_market
   end
 
-  def goodbye
-    puts
-    @@colorizer.write "Happy house hunting. Goodbye!"
-    puts
-    exit
+  def loading_city_message(city)
+    puts "Loading properties in " + city.name.yellow + "..."
+    sleep 2
   end
 
   def invalid_selection

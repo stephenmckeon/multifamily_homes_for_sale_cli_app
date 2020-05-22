@@ -40,22 +40,13 @@ class Scraper
     html.css(".HomeCardContainer")
   end
 
-  def self.scrape_home_facts(address)
+  def self.scrape_home_details(address)
     Scraper.scrape_prep(address)
-    lot_size_check
-    year_built_check
-    time_on_market_check
-    est_price_check
-    @property.add_home_facts(
+    @property.add_home_details(
       description: @link.css("#marketing-remarks-scroll").text,
       year_built: @year_built,
       lot_size: @lot_size,
-      time_on_market: @time_on_market
-    )
-  end
-
-  def self.scrape_price_insights
-    @property.add_price_insights(
+      time_on_market: @time_on_market,
       est_price: @est_price,
       est_mo_payment: @home_details[1].text,
       price_sqft: @home_details[3].text
@@ -66,6 +57,10 @@ class Scraper
     @property = find_property(address)
     @link = home_info_link(address)
     @home_details = @link.css(".keyDetailsList span.content")
+    lot_size_check
+    year_built_check
+    time_on_market_check
+    est_price_check
   end
 
   def self.year_built_check
@@ -97,7 +92,7 @@ class Scraper
     if @home_details[2].text.length.between?(7, 8)
       est_price = @home_details[2].text
     end
-    @est_price = est_price.nil? ? "-- " : est_price
+    @est_price = est_price.nil? ? "--      " : est_price
   end
 
   def self.home_info_link(address)

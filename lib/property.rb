@@ -21,15 +21,12 @@ class Property
     @@all << self
   end
 
-  def add_home_facts(description:, year_built:, lot_size:, time_on_market:)
+  def add_home_details(description:, year_built:, lot_size:, time_on_market:,
+                       est_price:, est_mo_payment:, price_sqft:)
     @description = description
     @year_built = year_built
     @lot_size = lot_size
     @time_on_market = time_on_market
-
-  end
-
-  def add_price_insights(est_price:, est_mo_payment:, price_sqft:)
     @est_price = est_price
     @est_mo_payment = est_mo_payment
     @price_sqft = price_sqft
