@@ -1,4 +1,4 @@
-require_relative "./check.rb"
+require_relative "./Modules/check.rb"
 
 class Scraper
   attr_accessor :listings_url

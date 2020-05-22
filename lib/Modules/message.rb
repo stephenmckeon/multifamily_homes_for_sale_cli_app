@@ -26,7 +26,7 @@ module Message
   end
 
   def loading_city_message(city)
-    puts "\nLoading properties in " + city.name.yellow + "..."
+    puts "\nLoading properties in " + city.name.yellow + "...\n\n"
     sleep 2
   end
 
@@ -42,8 +42,7 @@ module Message
   end
 
   def display_price_insights_info(property)
-    puts light_black_bold("\nList Price:        ") + property.price + \
-         light_black_bold("     Est. Mo. Payments:  ") + property.est_mo_payment
+    puts "\n#{light_black_bold('List Price:')}        #{property.price}" + light_black_bold("     Est. Mo. Payments:  ") + property.est_mo_payment
     puts light_black_bold("Redfin Est Price:  ") + property.est_price + \
          light_black_bold("     Price/Sqft:         ") + property.price_sqft
   end

@@ -11,6 +11,12 @@ class City
     @properties = []
   end
 
+  # def properties
+  #   Property.all.select do |property|
+  #     property.city == self
+  #   end
+  # end
+
   def self.all
     @@all
   end

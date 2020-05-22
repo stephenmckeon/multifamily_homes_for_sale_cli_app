@@ -8,7 +8,7 @@ module Format
   end
 
   def underline_yellow(string)
-    string.yellow.under_line
+    string.yellow.underline
   end
 
   def white_on_red(string)

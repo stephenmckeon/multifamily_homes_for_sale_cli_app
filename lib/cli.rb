@@ -1,11 +1,13 @@
-require_relative "./display.rb"
-require_relative "./input.rb"
-require_relative "./login.rb"
-require_relative "./message.rb"
+require_relative "./Modules/display.rb"
+require_relative "./Modules/input.rb"
+require_relative "./Modules/login.rb"
+require_relative "./Modules/message.rb"
 
 # --IDEAS--
 # build README
 # class << Self
+# big when Blackwood then selecting a new city
+# reader/writer
 
 class Cli
   include Display
@@ -38,10 +40,15 @@ class Cli
     city = City.find_city(@market_input)
     loading_city_message(city)
     Property.find_or_scrape_properties(@market_input)
-    display_properties(city)
-    user_address_message
-    select_property_input
-    show_details
+    if listings_in_city?(city) == false
+      no_listings_message(city)
+      start
+    else
+      display_properties(city)
+      user_address_message
+      select_property_input
+      show_details
+    end
   end
 
   def show_details
@@ -109,10 +116,6 @@ class Cli
   end
 
   def listings_in_city?(city)
-    return unless city.properties.empty?
-
-    no_listings_message(city)
-    select_market
-    puts
+    !city.properties.empty?
   end
 end

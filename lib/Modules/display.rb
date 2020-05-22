@@ -30,7 +30,6 @@ module Display
   end
 
   def display_properties(city)
-    listings_in_city?(city)
     city.properties.each do |property|
       puts "‣ " + underline_yellow(property.address)
       puts "  ➼ #{property.price}".green
