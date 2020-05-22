@@ -67,6 +67,7 @@ module Message
   end
 
   def loading_city_message(city)
+    puts
     puts "Loading properties in " + city.name.yellow + "..."
     sleep 2
   end

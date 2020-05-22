@@ -48,8 +48,8 @@ class Scraper
       lot_size: @lot_size,
       time_on_market: @time_on_market,
       est_price: @est_price,
-      est_mo_payment: @home_details[1].text,
-      price_sqft: @home_details[3].text
+      est_mo_payment: @est_mo_payment,
+      price_sqft: @price_sqft
     )
   end
 
@@ -61,6 +61,8 @@ class Scraper
     year_built_check
     time_on_market_check
     est_price_check
+    est_mo_payment_check
+    price_sqft_check
   end
 
   def self.year_built_check
@@ -93,6 +95,21 @@ class Scraper
       est_price = @home_details[2].text
     end
     @est_price = est_price.nil? ? "--      " : est_price
+  end
+
+  def self.est_mo_payment_check
+    est_mo_payment = nil
+    if @home_details[1].text.length.between?(4, 6) &&
+       @home_details[1].text.start_with?("$")
+      est_mo_payment = @home_details[1].text
+    end
+    @est_mo_payment = est_mo_payment.nil? ? "-- " : est_mo_payment
+  end
+
+  def self.price_sqft_check
+    price_sqft = @property.price.delete("$,").to_i \
+               / @property.sqft.delete(",Sq.Ft. ").to_i
+    @price_sqft = "$" + price_sqft.to_s
   end
 
   def self.home_info_link(address)
