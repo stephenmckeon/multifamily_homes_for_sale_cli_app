@@ -75,7 +75,7 @@ class Cli
   end
 
   def price_insights(address)
-    see_price_insights_message(@user_input)
+    see_price_insights_message
     input
     until_valid_input("yes", "no")
     return if @user_input == "no"
