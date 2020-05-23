@@ -17,7 +17,7 @@ module Input
 
   def select_market_input
     market_input
-    call if @market_input == "sign out"
+    call if @market_input == "log out"
     invalid_city?
   end
 

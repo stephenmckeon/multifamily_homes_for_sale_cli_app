@@ -12,13 +12,12 @@ module Message
   end
 
   def goodbye_message
-    puts
-    @@colorizer.write "Happy house hunting. Goodbye!\n\n"
+    @@colorizer.write "\nHappy house hunting. Goodbye!\n\n"
     exit
   end
 
   def no_listings_message(city)
-    puts "\nSorry, there are currently no listings in ".red \
+    puts "Sorry, there are currently no listings in ".red \
           + city.name.yellow + "!\n\n"
     sleep 1
     puts "Returning to city selection...."
@@ -49,7 +48,7 @@ module Message
 
   def user_city_message
     puts "Please select a " + "city ".yellow + "to search by typing it's name."
-    puts "You can also " + "sign out ".cyan + "by typing 'sign out'" \
+    puts "You can also " + "log out ".cyan + "by typing 'log out'" \
          ", or " + "exit ".red + "by typing 'exit'.\n\n"
   end
 
@@ -62,7 +61,7 @@ module Message
 
   def see_price_insights_message(user_input)
     puts "Would you like to see " + "price insights ".green + \
-         "for " + user_input.yellow + "?"
+         "for " + @property_input.yellow + "?"
     puts "(type " + light_black_on_green("'yes'") + \
          " or " + white_on_red("'no'") + ")\n\n"
   end

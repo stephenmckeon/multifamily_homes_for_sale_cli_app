@@ -8,7 +8,7 @@ require_relative "./Modules/message.rb"
 # class << Self
 # reader/writer
 # Would you like to see price insights for guest?
-# mask password?
+# delete puts in login module
 
 class Cli
   include Display
