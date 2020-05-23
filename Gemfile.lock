@@ -6,6 +6,7 @@ GEM
     ast (2.4.0)
     coderay (1.1.2)
     colorize (0.8.1)
+    equatable (0.6.1)
     httparty (0.18.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
@@ -19,12 +20,16 @@ GEM
     mime-types-data (3.2020.0512)
     mini_portile2 (2.4.0)
     multi_xml (0.6.0)
+    necromancer (0.5.1)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     paint (0.8.7)
     parallel (1.19.1)
     parser (2.7.1.2)
       ast (~> 2.4.0)
+    pastel (0.7.4)
+      equatable (~> 0.6)
+      tty-color (~> 0.5)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -42,7 +47,19 @@ GEM
     rubocop-performance (1.5.2)
       rubocop (>= 0.71.0)
     ruby-progressbar (1.10.1)
+    tty-color (0.5.1)
+    tty-cursor (0.7.1)
+    tty-prompt (0.21.0)
+      necromancer (~> 0.5.0)
+      pastel (~> 0.7.0)
+      tty-reader (~> 0.7.0)
+    tty-reader (0.7.0)
+      tty-cursor (~> 0.7)
+      tty-screen (~> 0.7)
+      wisper (~> 2.0.0)
+    tty-screen (0.7.1)
     unicode-display_width (1.7.0)
+    wisper (2.0.1)
 
 PLATFORMS
   ruby
@@ -57,6 +74,7 @@ DEPENDENCIES
   require_all
   rubocop
   rubocop-performance
+  tty-prompt
 
 BUNDLED WITH
    2.1.4

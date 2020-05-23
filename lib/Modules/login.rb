@@ -1,5 +1,6 @@
 module Login
   @@colorizer = Lolize::Colorizer.new
+  @@prompt = TTY::Prompt.new
 
   def load_users
     User.new(name: "Steve", username: "stephenmckeon", password: "love2code",
@@ -17,8 +18,7 @@ module Login
   def verify_login
     print "Username: ".yellow
     @username = gets.chomp
-    print "Password: ".yellow
-    @password = gets.chomp
+    @password = @@prompt.mask("Password:".yellow)
     if User.verify_account(@username, @password)
       login_success
     else
