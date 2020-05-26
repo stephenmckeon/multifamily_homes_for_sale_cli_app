@@ -42,12 +42,12 @@ class Scraper
       Scraper.scrape_prep(address)
       @property.add_home_details(
         description: @link.css("#marketing-remarks-scroll").text,
-        year_built: @year_built,
-        lot_size: @lot_size,
-        time_on_market: @time_on_market,
-        est_price: @est_price,
-        est_mo_payment: @est_mo_payment,
-        price_sqft: @price_sqft
+        year_built: year_built,
+        lot_size: lot_size,
+        time_on_market: time_on_market,
+        est_price: est_price,
+        est_mo_payment: est_mo_payment,
+        price_sqft: price_sqft
       )
     end
 
@@ -55,12 +55,6 @@ class Scraper
       @property = Property.find_property(address)
       @link = home_info_link(address)
       @home_details = @link.css(".keyDetailsList span.content")
-      year_built_check
-      lot_size_check
-      time_on_market_check
-      est_price_check
-      est_mo_payment_check
-      price_sqft_check
     end
 
     def home_info_link(address)
