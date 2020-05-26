@@ -23,15 +23,13 @@ class Scraper
 
     def scrape_listings(city)
       homecards(city).each do |home|
-        Property.new(
-          address: home.css(".addressDisplay").text,
-          city: city,
-          price: home.css(".homecardV2Price").text,
-          beds: home.css(".stats")[0].text,
-          baths: home.css(".stats")[1].text,
-          sqft: home.css(".stats")[2].text,
-          link: home.css(".scrollable a").attribute("href").value
-        )
+        Property.new(address: home_address(home),
+                     city: city,
+                     price: home_price(home),
+                     beds: home_beds(home),
+                     baths: home_baths(home),
+                     sqft: home_sqft(home),
+                     link: home_link(home))
       end
     end
 
@@ -68,6 +66,32 @@ class Scraper
     def home_info_link(address)
       home = Property.find_property(address)
       Nokogiri::HTML(HTTParty.get(home.link).body)
+    end
+
+  private
+
+    def home_link(home_element)
+      home_element.css(".scrollable a").attribute("href").value
+    end
+
+    def home_sqft(home_element)
+      home_element.css(".stats")[2].text
+    end
+
+    def home_baths(home_element)
+      home_element.css(".stats")[1].text
+    end
+
+    def home_beds(home_element)
+      home_element.css(".stats")[0].text
+    end
+
+    def home_price(home_element)
+      home_element.css(".homecardV2Price").text
+    end
+
+    def home_address(home_element)
+      home_element.css(".addressDisplay").text
     end
   end
 end
