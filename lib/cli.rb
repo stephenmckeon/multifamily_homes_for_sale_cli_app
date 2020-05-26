@@ -5,7 +5,6 @@ require_relative "./Modules/message.rb"
 
 # --IDEAS--
 # build README
-# class << Self
 # reader/writer
 
 class Cli

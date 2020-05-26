@@ -1,7 +1,7 @@
 class Property
-  attr_accessor :address, :city, :price, :beds, :baths, :sqft, :link,
-                :description, :year_built, :lot_size, :time_on_market,
-                :est_price, :est_mo_payment, :price_sqft, :ascii_art
+  attr_reader :address, :city, :price, :beds, :baths, :sqft, :link, :ascii_art
+  attr_accessor :description, :year_built, :lot_size, :time_on_market,
+                :est_price, :est_mo_payment, :price_sqft
 
   @@all = []
 
@@ -28,23 +28,25 @@ class Property
     @price_sqft = price_sqft
   end
 
-  def self.all
-    @@all
-  end
+  class << self
+    def all
+      @@all
+    end
 
-  def self.find_property(address)
-    Property.all.find { |home| home.address == address }
-  end
+    def find_property(address)
+      Property.all.find { |home| home.address == address }
+    end
 
-  def self.find_or_scrape_properties(city_name)
-    city = City.find_city(city_name)
-    Scraper.scrape_listings(city) if city.properties.empty?
-  end
+    def find_or_scrape_properties(city_name)
+      city = City.find_city(city_name)
+      Scraper.scrape_listings(city) if city.properties.empty?
+    end
 
-  def self.find_or_create_details(address)
-    property = Property.find_property(address)
-    return unless property.description.nil?
+    def find_or_create_details(address)
+      property = Property.find_property(address)
+      return unless property.description.nil?
 
-    Scraper.scrape_home_details(address)
+      Scraper.scrape_home_details(address)
+    end
   end
 end

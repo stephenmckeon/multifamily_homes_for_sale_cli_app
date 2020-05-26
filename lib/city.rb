@@ -1,5 +1,5 @@
 class City
-  attr_accessor :name, :link
+  attr_reader :name, :link
 
   @@all = []
 
@@ -16,15 +16,17 @@ class City
     end
   end
 
-  def self.all
-    @@all
-  end
+  class << self
+    def all
+      @@all
+    end
 
-  def self.find_city(name)
-    all.find { |city| city.name == name }
-  end
+    def find_city(name)
+      all.find { |city| city.name == name }
+    end
 
-  def self.find_or_create_cities
-    Scraper.scrape_cities if City.all.empty?
+    def find_or_create_cities
+      Scraper.scrape_cities if City.all.empty?
+    end
   end
 end
